@@ -10,7 +10,7 @@ namespace Company.Owner.DAL.Models
     {
         public int Id { get; set; }
         public int Code { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public DateTime CreateAt { get; set; }
     }
 }
