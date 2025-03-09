@@ -9,13 +9,14 @@ using Company.Owner.DAL.Models;
 
 namespace Company.Owner.BLL.Reposatories
 {
-    internal class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly CompanyDbContext _context; // By Default NULL
 
-        public DepartmentRepository()
+        // Ask CLR To Create Object for companyDbContext
+        public DepartmentRepository(CompanyDbContext companyDbContext)
         {
-            _context = new CompanyDbContext();
+            _context = companyDbContext;
         }
 
         public IEnumerable<Department> GetAll()
