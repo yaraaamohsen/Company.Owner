@@ -7,7 +7,7 @@ using Company.Owner.DAL.Models;
 
 namespace Company.Owner.BLL.Interfaces
 {
-    internal interface IDepartmentRepository
+    public interface IDepartmentRepository
     {
         IEnumerable<Department> GetAll();
         Department? Get(int id);

@@ -1,3 +1,8 @@
+using Company.Owner.BLL.Interfaces;
+using Company.Owner.BLL.Reposatories;
+using Company.Owner.DAL.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
+
 namespace Company.Owner.PL
 {
     public class Program
@@ -8,6 +13,15 @@ namespace Company.Owner.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>(); // Allow Dependacy Injection For departmentRepository
+            builder.Services.AddDbContext<CompanyDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // As GetConnectionString built in
+                //options.UseSqlServer(builder.Configuration["DefaultConnection"]); // in case it's user function
+
+
+            }); // Allow Dependacy Injection For CompanyDbContext
+
 
             var app = builder.Build();
 
@@ -26,7 +40,7 @@ namespace Company.Owner.PL
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=department}/{action=Index}/{id?}");
 
             app.Run();
         }
