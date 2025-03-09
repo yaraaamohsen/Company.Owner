@@ -1,4 +1,5 @@
-﻿using Company.Owner.BLL.Interfaces;
+﻿using System.Reflection.Metadata.Ecma335;
+using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
@@ -21,7 +22,6 @@ namespace Company.Owner.PL.Controllers
         public IActionResult Index()
         {
             var departments = _departmentRepository.GetAll();
-            
             return View(departments); // Sent department As A Model
         }
 
@@ -46,11 +46,30 @@ namespace Company.Owner.PL.Controllers
                 var count = _departmentRepository.Add(department);
                 if(count > 0)
                 {
-                    return RedirectToAction(nameof(Index ));
+                    return RedirectToAction(nameof(Index));
                 }
             }
             return View();
 
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var SpecDepartment = _departmentRepository.Get(id);
+            if(SpecDepartment is null)
+            {
+                return NotFound();   
+            }
+            var departmentDto = new DetailsDepartmentDto
+            {
+                Code = SpecDepartment.Code,
+                Name = SpecDepartment.Name,
+                CreateAt = SpecDepartment.CreateAt
+            };
+
+            return View(departmentDto);
+            
         }
     }
 }
