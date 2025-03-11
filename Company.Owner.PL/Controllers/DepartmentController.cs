@@ -4,6 +4,7 @@ using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Company.Owner.PL.Controllers
 {
@@ -54,22 +55,16 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
-            var SpecDepartment = _departmentRepository.Get(id);
-            if(SpecDepartment is null)
-            {
-                return NotFound();   
-            }
-            var departmentDto = new DetailsDepartmentDto
-            {
-                Code = SpecDepartment.Code,
-                Name = SpecDepartment.Name,
-                CreateAt = SpecDepartment.CreateAt
-            };
+            if(id is null) return BadRequest("Invalid Id");
 
-            return View(departmentDto);
+            var SpecDepartment = _departmentRepository.Get(id.Value);
+            if(SpecDepartment is null) return NotFound();   
             
+            return View(SpecDepartment);
         }
+
+        
     }
 }

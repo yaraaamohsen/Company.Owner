@@ -1,4 +1,4 @@
-﻿@model DetailsDepartmentDto
+﻿@model Department
 @{
     ViewData["Title"] = "Details";
 }
@@ -9,19 +9,19 @@
 <form>
     <div class="my-2">
         <label asp-for="Code" class="col-form-label">Code</label>
-        <input disabled asp-for="Code" class="form-control" value="@Model.Code" />
+        <input disabled asp-for="Code" class="form-control"/>
     </div>
     <div class="my-2">
         <label asp-for="Name" class="col-form-label">Name</label>
-        <input disabled asp-for="Name" class="form-control" value="@Model.Name" />
+        <input disabled asp-for="Name" class="form-control"/>
     </div>
     <div class="my-2">
         <label asp-for="CreateAt" class="col-form-label">CreateAt</label>
-        <input disabled asp-for="CreateAt" class="form-control" value="@Model.CreateAt" />
+        <input disabled asp-for="CreateAt" class="form-control"/>
     </div>
 
     <div class="my-3">
-        <input class="btn btn-primary" value="Edit" />
+        <button asp-action="Edit" class="btn btn-primary">Edit</button>
         <a asp-action="Index" class="btn btn-light">Back To Page</a>
     </div>
 </form>
