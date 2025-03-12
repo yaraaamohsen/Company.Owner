@@ -45,5 +45,21 @@ namespace Company.Owner.PL.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult GetEmpById(int? id, string ViewName)
+        {
+            if (id is null) return BadRequest("Id Is null");
+            var employee = _employeeRepository.GetById(id.Value);
+            if (employee is null) return NotFound("There is no emplyee matches the ID ");
+            
+            return View(ViewName, employee);
+        }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            return GetEmpById(id, "Details");
+        }
     }
 }
