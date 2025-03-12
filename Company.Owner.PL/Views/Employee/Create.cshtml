@@ -1,0 +1,68 @@
+﻿@model CreateEmployeeDto
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="my-3">Create Employee</h1>
+
+<form asp-action="Create">
+    <div>
+        <label asp-for="Name" class="col-form-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+    </div>
+    <div>
+        <label asp-for="Age" class="col-form-label">Age</label>
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+
+    </div>
+    <div>
+        <label asp-for="Salary" class="col-form-label">Salary</label>
+        <input asp-for="Salary" class="form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+
+    </div>
+    <div>
+        <label asp-for="Address" class="col-form-label">Address</label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+     <div>
+        <label asp-for="Phone" class="col-form-label">Phone</label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Email" class="col-form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="IsActive" class="col-form-label">IsActive</label>
+        <input asp-for="IsActive" class="form-check" />
+        <span asp-validation-for="IsActive" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="IsDeleted" class="col-form-label">IsDeleted</label>
+        <input asp-for="IsDeleted" class="form-check" />
+        <span asp-validation-for="IsDeleted" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="HiringDate" class="col-form-label">HiringDate</label>
+        <input asp-for="HiringDate" class="form-control" />
+        <span asp-validation-for="HiringDate" class="text-danger"></span>
+    </div> 
+    <div>
+        <label asp-for="CreateAt" class="col-form-label">CreateAt</label>
+        <input asp-for="CreateAt" class="form-control" />
+        <span asp-validation-for="CreateAt" class="text-danger"></span>
+    </div>
+
+    <div class="my-3">
+        <input type="submit" class="btn btn-primary" value="Create" />
+        <a asp-action="Index" class="btn btn-light">Back To Page</a>
+    </div>
+</form>
+

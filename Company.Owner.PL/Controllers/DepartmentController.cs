@@ -58,7 +58,7 @@ namespace Company.Owner.PL.Controllers
         public IActionResult GetDeptData(int? id, string ViewName)
         {
             if (id is null) return BadRequest();
-            var department = _departmentRepository.Get(id.Value);
+            var department = _departmentRepository.GetById(id.Value);
             if (department is null) return NotFound();
 
             return View(ViewName,department);
