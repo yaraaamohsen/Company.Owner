@@ -7,18 +7,8 @@
 <h1>Details Page</h1>
 
 <form>
-    <div class="my-2">
-        <label asp-for="Code" class="col-form-label">Code</label>
-        <input disabled asp-for="Code" class="form-control"/>
-    </div>
-    <div class="my-2">
-        <label asp-for="Name" class="col-form-label">Name</label>
-        <input disabled asp-for="Name" class="form-control"/>
-    </div>
-    <div class="my-2">
-        <label asp-for="CreateAt" class="col-form-label">CreateAt</label>
-        <input disabled asp-for="CreateAt" class="form-control"/>
-    </div>
+
+    <partial name="DepartmentPartialView/_DetailsDeletePartialView" />
 
     <div class="my-3">
         <button asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</button>
