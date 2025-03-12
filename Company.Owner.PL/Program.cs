@@ -13,7 +13,8 @@ namespace Company.Owner.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>(); // Allow Dependacy Injection For departmentRepository
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); // Allow Dependacy Injection For departmentRepository
+            builder.Services.AddScoped<IEmployeeRemository, EmployeeRepository>(); // Allow Dependacy Injection For departmentRepository
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // As GetConnectionString built in
