@@ -4,6 +4,7 @@ using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Company.Owner.PL.Controllers
 {
@@ -54,22 +55,64 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
-            var SpecDepartment = _departmentRepository.Get(id);
-            if(SpecDepartment is null)
-            {
-                return NotFound();   
-            }
-            var departmentDto = new DetailsDepartmentDto
-            {
-                Code = SpecDepartment.Code,
-                Name = SpecDepartment.Name,
-                CreateAt = SpecDepartment.CreateAt
-            };
+            if(id is null) return BadRequest("Invalid Id");
 
-            return View(departmentDto);
+            var SpecDepartment = _departmentRepository.Get(id.Value);
+            if(SpecDepartment is null) return NotFound();   
             
+            return View(SpecDepartment);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(id is null) return BadRequest();
+            var department = _departmentRepository.Get(id.Value);
+            if(department is null) return NotFound();
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute]int id, Department department)
+        {
+            if(ModelState.IsValid)
+            {
+                if(id != department.Id) return BadRequest("Not Selected Id");
+                var count = _departmentRepository.Update(department);
+
+                if (count > 0) return RedirectToAction(nameof(Index));
+
+            }
+            return View(department);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id is null) return BadRequest();
+            var department = _departmentRepository.Get(id.Value);
+            if(department is null) return NotFound();
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete([FromRoute] int id, Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                if(id != department.Id) return NotFound("Invalid Id");
+
+                var count = _departmentRepository.Delete(department);
+
+                if (count > 0) return RedirectToAction(nameof(Index));
+            }
+            return View(department);
         }
     }
 }
