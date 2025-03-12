@@ -61,5 +61,29 @@ namespace Company.Owner.PL.Controllers
         {
             return GetEmpById(id, "Details");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            return GetEmpById(id, "Edit");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute]int id,Employee model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id != model.Id) return BadRequest("Not Selected Id");
+                var count = _employeeRepository.Update(model);
+                if(count > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            return View(model);
+
+        }
+
     }
 }

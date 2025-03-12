@@ -41,7 +41,7 @@ namespace Company.Owner.PL
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=department}/{action=Index}/{id?}");
+                pattern: "{controller=employee}/{action=Index}/{id?}");
 
             app.Run();
         }
