@@ -89,5 +89,30 @@ namespace Company.Owner.PL.Controllers
             }
             return View(department);
         }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id is null) return BadRequest();
+            var department = _departmentRepository.Get(id.Value);
+            if(department is null) return NotFound();
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete([FromRoute] int id, Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                if(id != department.Id) return NotFound("Invalid Id");
+
+                var count = _departmentRepository.Delete(department);
+
+                if (count > 0) return RedirectToAction(nameof(Index));
+            }
+            return View(department);
+        }
     }
 }
