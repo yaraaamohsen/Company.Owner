@@ -55,24 +55,36 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetDeptData(int? id, string ViewName)
+        {
+            if (id is null) return BadRequest();
+            var department = _departmentRepository.Get(id.Value);
+            if (department is null) return NotFound();
+
+            return View(ViewName,department);
+        }
+
+        [HttpGet]
         public IActionResult Details(int? id)
         {
-            if(id is null) return BadRequest("Invalid Id");
+            //if (id is null) return BadRequest("Invalid Id");
 
-            var SpecDepartment = _departmentRepository.Get(id.Value);
-            if(SpecDepartment is null) return NotFound();   
-            
-            return View(SpecDepartment);
+            //var SpecDepartment = _departmentRepository.Get(id.Value);
+            //if (SpecDepartment is null) return NotFound();
+
+            //return View(SpecDepartment);
+            return GetDeptData(id, "Details");
         }
 
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if(id is null) return BadRequest();
-            var department = _departmentRepository.Get(id.Value);
-            if(department is null) return NotFound();
+            //if(id is null) return BadRequest();
+            //var department = _departmentRepository.Get(id.Value);
+            //if(department is null) return NotFound();
 
-            return View(department);
+            //return View(department);
+            return GetDeptData(id, "Edit");
         }
 
         [HttpPost]
@@ -93,11 +105,12 @@ namespace Company.Owner.PL.Controllers
         [HttpGet]
         public IActionResult Delete(int? id)
         {
-            if (id is null) return BadRequest();
-            var department = _departmentRepository.Get(id.Value);
-            if(department is null) return NotFound();
+            //if (id is null) return BadRequest();
+            //var department = _departmentRepository.Get(id.Value);
+            //if(department is null) return NotFound();
 
-            return View(department);
+            //return View(department);
+            return GetDeptData(id, "Delete");
         }
 
         [HttpPost]
