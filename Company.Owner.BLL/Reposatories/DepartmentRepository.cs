@@ -9,39 +9,9 @@ using Company.Owner.DAL.Models;
 
 namespace Company.Owner.BLL.Reposatories
 {
-    public class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
     {
-        private readonly CompanyDbContext _context; // By Default NULL
+        public DepartmentRepository(CompanyDbContext context) : base(context) { }
 
-        // Ask CLR To Create Object for companyDbContext
-        public DepartmentRepository(CompanyDbContext companyDbContext)
-        {
-            _context = companyDbContext;
-        }
-
-        public IEnumerable<Department> GetAll()
-        {
-            return _context.Departments.ToList();
-        }
-
-        public Department? Get(int id)
-        {
-            return _context.Departments.Find(id);
-        }
-        public int Add(Department model)
-        {
-            _context.Departments.Add(model);
-            return _context.SaveChanges();
-        }
-        public int Update(Department model)
-        {
-            _context.Departments.Update(model);
-            return _context.SaveChanges();
-        }
-        public int Delete(Department model)
-        {
-            _context.Departments.Remove(model);
-            return _context.SaveChanges();
-        }
     }
 }
