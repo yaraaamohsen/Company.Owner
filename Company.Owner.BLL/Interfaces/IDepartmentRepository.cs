@@ -7,12 +7,12 @@ using Company.Owner.DAL.Models;
 
 namespace Company.Owner.BLL.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IGenericRepository<Department>
     {
-        IEnumerable<Department> GetAll();
-        Department? Get(int id);
-        int Add(Department Model);
-        int Update(Department Model);
-        int Delete(Department Model);
+        //IEnumerable<Department> GetAll();
+        //Department? Get(int id);
+        //int Add(Department Model);
+        //int Update(Department Model);
+        //int Delete(Department Model);
     }
 }
