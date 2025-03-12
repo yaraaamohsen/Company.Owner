@@ -34,10 +34,7 @@
                     <td>@item.Code</td>
                     <td>@item.Name</td>
                     <td>@item.CreateAt</td>
-                    <td><a class="btn btn-warning" asp-route-id="@item.Id" asp-action="Details">Details</a></td>
-                    <td><a class="btn btn-success" asp-route-id="@item.Id" asp-action="Edit">Update</a></td>
-                    <td><a class="btn btn-danger" asp-route-id="@item.Id"asp-action="Delete">Delete</a></td>
-                    
+                    <partial name="_buttonsPartialView" model="@item.Id" />
                     @* Pop Up *@
                     @* <td><a class="btn btn-danger" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a></td> *@
                     @* <!-- Modal --> *@
