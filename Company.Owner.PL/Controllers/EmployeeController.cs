@@ -82,8 +82,27 @@ namespace Company.Owner.PL.Controllers
                 }
             }
             return View(model);
-
         }
 
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            return GetEmpById(id, "Delete");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete([FromRoute] int id, Employee model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id != model.Id) return BadRequest("Not Selected Id");
+
+                var count = _employeeRepository.Delete(model);
+
+                if (count > 0) return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
     }
 }
