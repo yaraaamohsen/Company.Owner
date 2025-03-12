@@ -21,9 +21,11 @@
     </div>
 
     <div class="my-3">
-        <button asp-action="Edit" class="btn btn-primary">Edit</button>
+        <button asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</button>
         <a asp-action="Index" class="btn btn-light">Back To Page</a>
     </div>
+
+   
 </form>
 
 

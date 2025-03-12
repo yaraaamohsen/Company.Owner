@@ -65,6 +65,29 @@ namespace Company.Owner.PL.Controllers
             return View(SpecDepartment);
         }
 
-        
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(id is null) return BadRequest();
+            var department = _departmentRepository.Get(id.Value);
+            if(department is null) return NotFound();
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute]int id, Department department)
+        {
+            if(ModelState.IsValid)
+            {
+                if(id != department.Id) return BadRequest("Not Selected Id");
+                var count = _departmentRepository.Update(department);
+
+                if (count > 0) return RedirectToAction(nameof(Index));
+
+            }
+            return View(department);
+        }
     }
 }
