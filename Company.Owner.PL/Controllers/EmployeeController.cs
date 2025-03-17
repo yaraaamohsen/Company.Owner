@@ -16,6 +16,18 @@ namespace Company.Owner.PL.Controllers
         public IActionResult Index()
         {
             var employees = _employeeRepository.GetAll();
+            // Dictionary  : this 3 property imherited from Controller Class
+            // 1. ViewData : Transfer Extra Information From Controller (Action) To View
+            ViewData["Message"] = "Hello Form ViewData"; // Set - Get to Update
+
+
+            // 2. ViewBag  : Transfer Extra Information From Controller (Action) To View
+            ViewBag.Message = "Hello From ViewBag";
+            // 3. TempData
+
+
+
+
             return View(employees);
         }
         public IActionResult Create()
@@ -41,7 +53,11 @@ namespace Company.Owner.PL.Controllers
                     CreateAt = model.CreateAt
                 };
                 var count = _employeeRepository.Add(employee);
-                if(count > 0) return RedirectToAction(nameof(Index));
+                if (count > 0)
+                {
+                    TempData["Message"] = "Employee Is Created !!";
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View();
         }

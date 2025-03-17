@@ -127,5 +127,22 @@ namespace Company.Owner.PL.Controllers
             }
             return View(department);
         }
+
+
+        //[HttpGet] // to delete department without get view
+        ////[ValidateAntiForgeryToken]
+        //public IActionResult Delete([FromRoute] int id)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //         var department = _departmentRepository.GetById(id);
+        //        if (department is null) return BadRequest();
+        //        var count = _departmentRepository.Delete(department);
+
+        //        if (count > 0) return RedirectToAction(nameof(Index));
+        //    }
+        //    return View("Index");
+        //}
+
     }
 }
