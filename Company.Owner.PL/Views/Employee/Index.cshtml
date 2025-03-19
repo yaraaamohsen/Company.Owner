@@ -8,6 +8,14 @@
 
 <h1>All Employees</h1>
 
+<form>
+    <div>
+        <input id="InputVal" placeholder="Search By Employee Name" name="SearchInput" class="form-control" />
+        <input type="submit" class="btn btn-success my-2" value="Search" />
+    </div>
+</form>
+
+
 <a asp-action="Create" asp-controller="Employee" class="btn btn-primary my-3">Add Employee</a>
 
 
@@ -42,6 +50,7 @@
                 <th>@Html.DisplayNameFor(E => E.CreateAt)</th>
                 <th>Is Active</th>
                 <th>Is Deleted</th>
+                <th>Department</th>
                 <th>Details</th>
                 <th>update</th>
                 <th>Delete</th>
@@ -61,6 +70,7 @@
                     <td>@item.CreateAt</td>
                     <td>@item.IsActive</td>
                     <td>@item.IsDeleted</td>
+                    <td>@(item.department != null? item.department?.Name : "NA")</td>
                     <partial name="_buttonsPartialView" model="@item.Id" />
                 </tr>
             }

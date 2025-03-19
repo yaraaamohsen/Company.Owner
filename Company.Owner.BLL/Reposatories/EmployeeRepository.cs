@@ -12,6 +12,16 @@ namespace Company.Owner.BLL.Reposatories
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRemository
     {
-        public EmployeeRepository(CompanyDbContext context) : base(context) { }
+        public CompanyDbContext _context { get; }
+
+        public EmployeeRepository(CompanyDbContext context) : base(context)
+        {
+            _context = context;
+        }
+
+        public List<Employee> GetByName(string name)
+        {
+            return _context.employees.Include(E=> E.department).Where(E => E.Name.ToLower().Contains(name.ToLower())).ToList();
+        }
     }
 }
