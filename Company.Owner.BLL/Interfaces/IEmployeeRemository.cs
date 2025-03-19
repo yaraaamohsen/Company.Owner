@@ -14,5 +14,7 @@ namespace Company.Owner.BLL.Interfaces
         //int Add(Employee employee);
         //int Update(Employee employee);
         //int Delete(Employee employee);
+        List<Employee> GetByName(string name);
+
     }
 }

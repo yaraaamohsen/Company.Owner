@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.DAL.Data.Contexts;
 using Company.Owner.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Owner.BLL.Reposatories
 {
@@ -18,6 +20,10 @@ namespace Company.Owner.BLL.Reposatories
         }
         public IEnumerable<T> GetAll()
         {
+            if(typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>) _context.employees.Include(E => E.department).ToList();
+            }
             return _context.Set<T>().ToList();
         }
         public T GetById(int id)

@@ -8,18 +8,40 @@ namespace Company.Owner.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRemository _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public EmployeeController(IEmployeeRemository employeeRepository)
+        public EmployeeController(IEmployeeRemository employeeRepository, IDepartmentRepository departmentRepository)
         {
-            _employeeRepository = employeeRepository; 
+            _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string? SearchInput)
         {
-            var employees = _employeeRepository.GetAll();
+            IEnumerable<Employee> employees;
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                employees = _employeeRepository.GetAll();
+            }
+            else
+            {
+                employees = _employeeRepository.GetByName(SearchInput);  
+            }
+            // Dictionary  : this 3 property imherited from Controller Class
+            // 1. ViewData : Transfer Extra Information From Controller (Action) To View
+            ViewData["Message"] = "Hello Form ViewData"; // Set - Get to Update
+
+
+            // 2. ViewBag  : Transfer Extra Information From Controller (Action) To View
+            ViewBag.Message = "Hello From ViewBag";
+            // 3. TempData
+
             return View(employees);
         }
         public IActionResult Create()
         {
+            var department = _departmentRepository.GetAll();
+            ViewData["department"] = department;
             return View();
         }
         [HttpPost]
@@ -38,10 +60,15 @@ namespace Company.Owner.PL.Controllers
                     IsActive = model.IsActive,
                     IsDeleted = model.IsDeleted,
                     HiringDate = model.HiringDate,
-                    CreateAt = model.CreateAt
+                    CreateAt = model.CreateAt,
+                    DepartmentId = model.DepartmentId
                 };
                 var count = _employeeRepository.Add(employee);
-                if(count > 0) return RedirectToAction(nameof(Index));
+                if (count > 0)
+                {
+                    TempData["Message"] = "Employee Is Created !!";
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View();
         }
@@ -52,7 +79,8 @@ namespace Company.Owner.PL.Controllers
             if (id is null) return BadRequest("Id Is null");
             var employee = _employeeRepository.GetById(id.Value);
             if (employee is null) return NotFound("There is no emplyee matches the ID ");
-            
+            var department = _departmentRepository.GetAll();
+            ViewData["department"] = department;
             return View(ViewName, employee);
         }
 

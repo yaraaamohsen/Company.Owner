@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.DAL.Data.Contexts;
 using Company.Owner.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Owner.BLL.Reposatories
 {

@@ -2,42 +2,50 @@
 
 <div>
     <label asp-for="Name" class="col-form-label">Name</label>
-    <input asp-for="Name" class="form-control" disabled />
+    <input asp-for="Name" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="Age" class="col-form-label">Age</label>
-    <input asp-for="Age" class="form-control" disabled />
+    <input asp-for="Age" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="Salary" class="col-form-label">Salary</label>
-    <input asp-for="Salary" class="form-control" disabled />
+    <input asp-for="Salary" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="Address" class="col-form-label">Address</label>
-    <input asp-for="Address" class="form-control" disabled />
+    <input asp-for="Address" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="Phone" class="col-form-label">Phone</label>
-    <input asp-for="Phone" class="form-control" disabled />
+    <input asp-for="Phone" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="Email" class="col-form-label">Email</label>
-    <input asp-for="Email" class="form-control" disabled />
+    <input asp-for="Email" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="IsActive" class="col-form-label">IsActive</label>
-    <input asp-for="IsActive" class="form-check" disabled />
+    <input asp-for="IsActive" class="form-check" readonly />
 </div>
 <div>
     <label asp-for="IsDeleted" class="col-form-label">IsDeleted</label>
-    <input asp-for="IsDeleted" class="form-check" disabled />
+    <input asp-for="IsDeleted" class="form-check" readonly />
 </div>
 <div>
     <label asp-for="HiringDate" class="col-form-label">HiringDate</label>
-    <input asp-for="HiringDate" class="form-control" disabled />
+    <input asp-for="HiringDate" class="form-control" readonly />
 </div>
 <div>
     <label asp-for="CreateAt" class="col-form-label">CreateAt</label>
-    <input asp-for="CreateAt" class="form-control" disabled />
+    <input asp-for="CreateAt" class="form-control" readonly />
 </div>
+@*
+      <div>
+        <label asp-for="DepartmentId" class="col-form-label"></label>
+        <select asp-for="DepartmentId" asp-items="department" class="form-control" disabled>
+            <option value="@null">--Select Department--</option>
+        </select>
+    </div>
+*@
 
