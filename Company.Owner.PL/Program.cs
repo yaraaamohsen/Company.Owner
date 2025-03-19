@@ -1,6 +1,7 @@
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Data.Contexts;
+using Company.Owner.PL.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Owner.PL
@@ -19,10 +20,16 @@ namespace Company.Owner.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // As GetConnectionString built in
                 //options.UseSqlServer(builder.Configuration["DefaultConnection"]); // in case it's user function
-
-
             }); // Allow Dependacy Injection For CompanyDbContext
 
+            // It depends On Lifetime
+            //builder.Services.AddScoped();     // Create Object Life Time Per Request - Unreachable Object
+            //builder.Services.AddTransient();  // Create Object Life Time Per Operation
+            //builder.Services.AddSingleton();  // Create Object Life Time Per App
+
+            //builder.Services.AddScoped<IScopedService, ScopedService>();          // Per Request
+            //builder.Services.AddTransient<ITransientService, TransientService>(); // Per Operation
+            //builder.Services.AddSingleton<ISingletonService, SingletonService>(); // Per App
 
             var app = builder.Build();
 
