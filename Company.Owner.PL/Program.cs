@@ -1,6 +1,8 @@
+using AutoMapper;
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Data.Contexts;
+using Company.Owner.PL.Mapping;
 using Company.Owner.PL.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +18,9 @@ namespace Company.Owner.PL
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); // Allow Dependacy Injection For departmentRepository
             builder.Services.AddScoped<IEmployeeRemository, EmployeeRepository>(); // Allow Dependacy Injection For departmentRepository
+            //builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+ 
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // As GetConnectionString built in

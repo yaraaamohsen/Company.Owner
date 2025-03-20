@@ -1,4 +1,5 @@
-﻿using Company.Owner.BLL.Interfaces;
+﻿using AutoMapper;
+using Company.Owner.BLL.Interfaces;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,16 @@ namespace Company.Owner.PL.Controllers
     {
         private readonly IEmployeeRemository _employeeRepository;
         private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _Mapper;
 
-        public EmployeeController(IEmployeeRemository employeeRepository, IDepartmentRepository departmentRepository)
+        public EmployeeController(
+            IEmployeeRemository employeeRepository,
+            IDepartmentRepository departmentRepository,
+            IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _departmentRepository = departmentRepository;
+            _Mapper = mapper;
         }
         [HttpGet]
         public IActionResult Index(string? SearchInput)
@@ -38,31 +44,20 @@ namespace Company.Owner.PL.Controllers
 
             return View(employees);
         }
+        
         public IActionResult Create()
         {
             var department = _departmentRepository.GetAll();
             ViewData["department"] = department;
             return View();
         }
+        
         [HttpPost]
         public IActionResult Create(CreateEmployeeDto model)
         {
             if(ModelState.IsValid)
             {
-                var employee = new Employee()
-                {
-                    Name = model.Name,
-                    Age = model.Age,
-                    Address = model.Address,
-                    Salary = model.Salary,
-                    Email = model.Email,
-                    Phone = model.Phone,
-                    IsActive = model.IsActive,
-                    IsDeleted = model.IsDeleted,
-                    HiringDate = model.HiringDate,
-                    CreateAt = model.CreateAt,
-                    DepartmentId = model.DepartmentId
-                };
+                var employee = _Mapper.Map<Employee>(model);
                 var count = _employeeRepository.Add(employee);
                 if (count > 0)
                 {
@@ -77,10 +72,14 @@ namespace Company.Owner.PL.Controllers
         public IActionResult GetEmpById(int? id, string ViewName)
         {
             if (id is null) return BadRequest("Id Is null");
+
             var employee = _employeeRepository.GetById(id.Value);
+            
             if (employee is null) return NotFound("There is no emplyee matches the ID ");
+            
             var department = _departmentRepository.GetAll();
             ViewData["department"] = department;
+            
             return View(ViewName, employee);
         }
 
