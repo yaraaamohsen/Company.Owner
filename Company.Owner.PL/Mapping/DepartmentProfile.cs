@@ -8,7 +8,7 @@ namespace Company.Owner.PL.Mapping
     {
         public DepartmentProfile()
         {
-            CreateMap<CreateDepartmentDto, Department>().ReverseMap();
+            CreateMap<CreateDepartmentDto, Department>();
         }
     }
 }

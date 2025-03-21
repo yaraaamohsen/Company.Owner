@@ -8,46 +8,44 @@ namespace Company.Owner.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRemository _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _Mapper;
 
         public EmployeeController(
-            IEmployeeRemository employeeRepository,
-            IDepartmentRepository departmentRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            _employeeRepository = employeeRepository;
-            _departmentRepository = departmentRepository;
+            _unitOfWork = unitOfWork;
             _Mapper = mapper;
         }
+
         [HttpGet]
         public IActionResult Index(string? SearchInput)
         {
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(SearchInput))
             {
-                employees = _employeeRepository.GetAll();
+                employees = _unitOfWork.employeeRemository.GetAll();
             }
             else
             {
-                employees = _employeeRepository.GetByName(SearchInput);  
+                employees = _unitOfWork.employeeRemository.GetByName(SearchInput);  
             }
-            // Dictionary  : this 3 property imherited from Controller Class
-            // 1. ViewData : Transfer Extra Information From Controller (Action) To View
-            ViewData["Message"] = "Hello Form ViewData"; // Set - Get to Update
+            //// Dictionary  : this 3 property imherited from Controller Class
+            //// 1. ViewData : Transfer Extra Information From Controller (Action) To View
+            //ViewData["Message"] = "Hello Form ViewData"; // Set - Get to Update
 
 
-            // 2. ViewBag  : Transfer Extra Information From Controller (Action) To View
-            ViewBag.Message = "Hello From ViewBag";
-            // 3. TempData
+            //// 2. ViewBag  : Transfer Extra Information From Controller (Action) To View
+            //ViewBag.Message = "Hello From ViewBag";
+            //// 3. TempData
 
             return View(employees);
         }
         
         public IActionResult Create()
         {
-            var department = _departmentRepository.GetAll();
+            var department = _unitOfWork.departmentRepository.GetAll();
             ViewData["department"] = department;
             return View();
         }
@@ -58,7 +56,7 @@ namespace Company.Owner.PL.Controllers
             if(ModelState.IsValid)
             {
                 var employee = _Mapper.Map<Employee>(model);
-                var count = _employeeRepository.Add(employee);
+                var count = _unitOfWork.employeeRemository.Add(employee);
                 if (count > 0)
                 {
                     TempData["Message"] = "Employee Is Created !!";
@@ -73,11 +71,11 @@ namespace Company.Owner.PL.Controllers
         {
             if (id is null) return BadRequest("Id Is null");
 
-            var employee = _employeeRepository.GetById(id.Value);
+            var employee = _unitOfWork.employeeRemository.GetById(id.Value);
             
             if (employee is null) return NotFound("There is no emplyee matches the ID ");
             
-            var department = _departmentRepository.GetAll();
+            var department = _unitOfWork.departmentRepository.GetAll();
             ViewData["department"] = department;
             
             return View(ViewName, employee);
@@ -102,7 +100,7 @@ namespace Company.Owner.PL.Controllers
             if (ModelState.IsValid)
             {
                 if (id != model.Id) return BadRequest("Not Selected Id");
-                var count = _employeeRepository.Update(model);
+                var count = _unitOfWork.employeeRemository.Update(model);
                 if(count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -125,7 +123,7 @@ namespace Company.Owner.PL.Controllers
             {
                 if (id != model.Id) return BadRequest("Not Selected Id");
 
-                var count = _employeeRepository.Delete(model);
+                var count = _unitOfWork.employeeRemository.Delete(model);
 
                 if (count > 0) return RedirectToAction(nameof(Index));
             }

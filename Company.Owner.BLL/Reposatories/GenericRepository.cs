@@ -28,6 +28,12 @@ namespace Company.Owner.BLL.Reposatories
         }
         public T GetById(int id)
         {
+            if (typeof(T) == typeof(Employee))
+            {
+                return _context.employees
+                    .Include(E => E.department)
+                    .FirstOrDefault(E => E.Id == id) as T;
+            }
             return _context.Set<T>().Find(id);
         }
         public int Add(T model)

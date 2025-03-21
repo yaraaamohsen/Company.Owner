@@ -12,21 +12,21 @@ namespace Company.Owner.PL.Controllers
     // MVC Controller
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         // Ask CLR Create Instant Object From DepartmentRepository
-        public DepartmentController(IDepartmentRepository departmentRepository,
+        public DepartmentController(IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            _departmentRepository = departmentRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet] // GET : Department/index
         public IActionResult Index()
         {
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.departmentRepository.GetAll();
             return View(departments); // Sent department As A Model
         }
 
@@ -43,7 +43,7 @@ namespace Company.Owner.PL.Controllers
             {
                 var department = _mapper.Map<Department>(model);
 
-                var count = _departmentRepository.Add(department);
+                var count = _unitOfWork.departmentRepository.Add(department);
                 if(count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -57,7 +57,7 @@ namespace Company.Owner.PL.Controllers
         public IActionResult GetDeptData(int? id, string ViewName)
         {
             if (id is null) return BadRequest();
-            var department = _departmentRepository.GetById(id.Value);
+            var department = _unitOfWork.departmentRepository.GetById(id.Value);
             if (department is null) return NotFound();
 
             return View(ViewName,department);
@@ -82,7 +82,7 @@ namespace Company.Owner.PL.Controllers
             if(ModelState.IsValid)
             {
                 if(id != department.Id) return BadRequest("Not Selected Id");
-                var count = _departmentRepository.Update(department);
+                var count = _unitOfWork.departmentRepository.Update(department);
 
                 if (count > 0) return RedirectToAction(nameof(Index));
 
@@ -104,7 +104,7 @@ namespace Company.Owner.PL.Controllers
             {
                 if(id != department.Id) return NotFound("Invalid Id");
 
-                var count = _departmentRepository.Delete(department);
+                var count = _unitOfWork.departmentRepository.Delete(department);
 
                 if (count > 0) return RedirectToAction(nameof(Index));
             }
