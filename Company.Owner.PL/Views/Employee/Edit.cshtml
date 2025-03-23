@@ -1,6 +1,7 @@
 ﻿@model CreateEmployeeDto
 @{
     ViewData["Title"] = "Edit";
+    var department = new SelectList(ViewData["department"] as IEnumerable<Department>, "Id", "Name");
 }
 
 <h1>Edit</h1>
@@ -8,6 +9,12 @@
 <form asp-action="Edit" enctype="multipart/form-data">
 
     <partial name="EmployeePartialView/_CreateEditPartialView" />
+    <div>
+        <label asp-for="DepartmentId" class="col-form-label"></label>
+        <select asp-for="DepartmentId" asp-items="department" class="form-control">
+            <option value="@null">--Select Department--</option>
+        </select>
+    </div>
     <input asp-for="ImageName" hidden />
 
     <div class="my-3">

@@ -9,7 +9,12 @@
 <form asp-action="Create" enctype="multipart/form-data">
 
     <partial name="EmployeePartialView/_CreateEditPartialView" />
-
+    <div>
+        <label asp-for="DepartmentId" class="col-form-label"></label>
+        <select asp-for="DepartmentId" asp-items="department" class="form-control">
+            <option value="@null">--Select Department--</option>
+        </select>
+    </div>
     <div class="my-3">
         <input type="submit" class="btn btn-primary" value="Create" />
         <a asp-action="Index" class="btn btn-light">Back To Page</a>

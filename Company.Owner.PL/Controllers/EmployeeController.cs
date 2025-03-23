@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using AutoMapper;
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.DAL.Models;
@@ -22,16 +23,16 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string? SearchInput)
+        public async Task<IActionResult> Index(string? SearchInput)
         {
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(SearchInput))
             {
-                employees = _unitOfWork.employeeRemository.GetAll();
+                employees = await _unitOfWork.employeeRemository.GetAllAsync();
             }
             else
             {
-                employees = _unitOfWork.employeeRemository.GetByName(SearchInput);  
+                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);  
             }
             //// Dictionary  : this 3 property imherited from Controller Class
             //// 1. ViewData : Transfer Extra Information From Controller (Action) To View
@@ -45,15 +46,15 @@ namespace Company.Owner.PL.Controllers
             return View(employees);
         }
         
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var department = _unitOfWork.departmentRepository.GetAll();
+            var department = await _unitOfWork.departmentRepository.GetAllAsync();
             ViewData["department"] = department;
             return View();
         }
         
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto model)
+        public async Task<IActionResult> Create(CreateEmployeeDto model)
         {
             if(ModelState.IsValid)
             {
@@ -62,7 +63,8 @@ namespace Company.Owner.PL.Controllers
                    model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
                 }
                 var employee = _Mapper.Map<Employee>(model);
-                var count = _unitOfWork.employeeRemository.Add(employee);
+                await _unitOfWork.employeeRemository.AddAsync(employee);
+                var count = await _unitOfWork.CompleteAsync();
                 if (count > 0)
                 {
                     TempData["Message"] = "Employee Is Created !!";
@@ -73,15 +75,15 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetEmpById(int? id, string ViewName)
+        public async Task<IActionResult> GetEmpByIdAsync(int? id, string ViewName)
         {
             if (id is null) return BadRequest("Id Is null");
 
-            var employee = _unitOfWork.employeeRemository.GetById(id.Value);
+            var employee = await _unitOfWork.employeeRemository.GetByIdAsync(id.Value);
             
             if (employee is null) return NotFound("There is no emplyee matches the ID ");
             
-            var department = _unitOfWork.departmentRepository.GetAll();
+            var department = await _unitOfWork.departmentRepository.GetAllAsync();
             ViewData["department"] = department;
             
             if(ViewName == "Edit")
@@ -94,20 +96,20 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int? id)
+        public Task<IActionResult> Details(int? id)
         {
-            return GetEmpById(id, "Details");
+            return GetEmpByIdAsync(id, "Details");
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public Task<IActionResult> Edit(int? id)
         {
-            return GetEmpById(id, "Edit");
+            return GetEmpByIdAsync(id, "Edit");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute]int id,CreateEmployeeDto model)
+        public async Task<IActionResult> Edit([FromRoute]int id,CreateEmployeeDto model)
         {
             if (ModelState.IsValid)
             {
@@ -121,8 +123,9 @@ namespace Company.Owner.PL.Controllers
                 }
                 var employee = _Mapper.Map<Employee>(model);
                 employee.Id = id;
-                var count = _unitOfWork.employeeRemository.Update(employee);
-                if(count > 0)
+                _unitOfWork.employeeRemository.Update(employee);
+                var count = await _unitOfWork.CompleteAsync();
+                if (count > 0)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -131,20 +134,22 @@ namespace Company.Owner.PL.Controllers
             }
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public Task<IActionResult> Delete(int? id)
         {
-            return GetEmpById(id, "Delete");
+            return GetEmpByIdAsync(id, "Delete");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int id, Employee model)
+        public async Task<IActionResult> Delete([FromRoute] int id, Employee model)
         {
             if (ModelState.IsValid)
             {
                 if (id != model.Id) return BadRequest("Not Selected Id");
 
-                var count = _unitOfWork.employeeRemository.Delete(model);
+                _unitOfWork.employeeRemository.Delete(model);
+
+                var count = await _unitOfWork.CompleteAsync();
 
                 if (count > 0)
                 {
