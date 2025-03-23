@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Reflection.Metadata;
+using AutoMapper;
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
+using Company.Owner.PL.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Owner.PL.Controllers
@@ -55,6 +57,10 @@ namespace Company.Owner.PL.Controllers
         {
             if(ModelState.IsValid)
             {
+                if (model.Image is not null)
+                {
+                   model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
+                }
                 var employee = _Mapper.Map<Employee>(model);
                 var count = _unitOfWork.employeeRemository.Add(employee);
                 if (count > 0)
@@ -78,6 +84,12 @@ namespace Company.Owner.PL.Controllers
             var department = _unitOfWork.departmentRepository.GetAll();
             ViewData["department"] = department;
             
+            if(ViewName == "Edit")
+            {
+                var createEmployeeDto = _Mapper.Map<CreateEmployeeDto>(employee);
+                return View(ViewName, createEmployeeDto);
+            }
+
             return View(ViewName, employee);
         }
 
@@ -95,19 +107,28 @@ namespace Company.Owner.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute]int id,Employee model)
+        public IActionResult Edit([FromRoute]int id,CreateEmployeeDto model)
         {
             if (ModelState.IsValid)
             {
-                if (id != model.Id) return BadRequest("Not Selected Id");
-                var count = _unitOfWork.employeeRemository.Update(model);
+                if(model.ImageName is not null && model.Image is not null)
+                {
+                    DocumentSettings.DeleteFile(model.ImageName, "Images");
+                }
+                if(model.Image is not null)
+                {
+                    model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
+                }
+                var employee = _Mapper.Map<Employee>(model);
+                employee.Id = id;
+                var count = _unitOfWork.employeeRemository.Update(employee);
                 if(count > 0)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
             return View(model);
-        }
+            }
 
         [HttpGet]
         public IActionResult Delete(int? id)
@@ -125,7 +146,14 @@ namespace Company.Owner.PL.Controllers
 
                 var count = _unitOfWork.employeeRemository.Delete(model);
 
-                if (count > 0) return RedirectToAction(nameof(Index));
+                if (count > 0)
+                {
+                    if(model.ImageName is not null)
+                    {
+                    DocumentSettings.DeleteFile(model.ImageName, "Images");
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(model);
         }
