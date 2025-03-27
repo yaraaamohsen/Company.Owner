@@ -1,5 +1,6 @@
 ﻿using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
+using Company.Owner.PL.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -92,6 +93,40 @@ namespace Company.Owner.PL.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(SignUp));
+        }
+
+        [HttpGet]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendResetPasswordUrl(ForgetPasswordDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if(user is not null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var url = Url.Action("ResetPassword", "Account", new {email = model.Email, token}, Request.Scheme);
+                    var email = new Email()
+                    {
+                        To = model.Email,
+                        Subject = "Reset Password",
+                        Body = url
+                    };
+                    var Flag = EmailSetting.SendEmail(email);
+                    if (Flag)
+                    {
+                        // Check Ypur Inbox
+                    }
+                }
+            }
+            ModelState.AddModelError("", "Invalid Reset Password");
+            return View("ForgetPassword", model);
         }
     }
 }

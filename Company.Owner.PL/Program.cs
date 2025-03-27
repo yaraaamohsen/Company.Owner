@@ -29,7 +29,8 @@ namespace Company.Owner.PL
             builder.Services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
-                            .AddEntityFrameworkStores<CompanyDbContext>();
+                            .AddEntityFrameworkStores<CompanyDbContext>()
+                            .AddDefaultTokenProviders();
 
             builder.Services.ConfigureApplicationCookie(config =>
             {
