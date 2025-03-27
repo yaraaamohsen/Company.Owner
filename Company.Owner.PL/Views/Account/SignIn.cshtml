@@ -10,7 +10,7 @@
 		{
 			<div asp-validation-summary="All" class="m-3 alert alert-danger"></div>
 		}
-		<form asp-action="SignUp">
+		<form asp-action="SignIn">
 
 			<div class="mb-3">
 				<input asp-for="Email" class="form-control" placeholder="Email">
@@ -18,7 +18,7 @@
 			</div>
 
 			<div class="mb-3">
-				<input asp-for="Password" class="form-control" placeholder="Password">
+				<input asp-for="Password" class="form-control" placeholder="Password" type="password">
 				<span asp-validation-for="Password" class="text-danger"></span>
 			</div>
 

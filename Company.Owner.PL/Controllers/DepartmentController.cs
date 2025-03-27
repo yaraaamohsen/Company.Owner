@@ -4,12 +4,15 @@ using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Company.Owner.PL.Controllers
 {
     // MVC Controller
+    [Authorize]
+
     public class DepartmentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -2,11 +2,14 @@ using System.Diagnostics;
 using System.Text;
 using Company.Owner.PL.Models;
 using Company.Owner.PL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Company.Owner.PL.Controllers
 {
+    //[AllowAnonymous] // By Default
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

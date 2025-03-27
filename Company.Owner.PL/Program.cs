@@ -29,7 +29,12 @@ namespace Company.Owner.PL
             builder.Services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
-                            .AddEntityFrameworkStores<CompanyDbContext>(); 
+                            .AddEntityFrameworkStores<CompanyDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/Account/SignIn";
+            });
 
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
@@ -59,9 +64,14 @@ namespace Company.Owner.PL
             }
 
             app.UseHttpsRedirection();
+            
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

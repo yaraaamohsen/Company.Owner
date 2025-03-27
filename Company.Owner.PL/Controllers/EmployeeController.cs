@@ -5,10 +5,12 @@ using Company.Owner.BLL.Interfaces;
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Company.Owner.PL.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Owner.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
