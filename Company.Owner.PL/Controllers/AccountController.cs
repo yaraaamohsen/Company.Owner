@@ -16,7 +16,6 @@ namespace Company.Owner.PL.Controllers
             _signInManager = signInManager;
         }
 
-        #region SignUp
         [HttpGet] // GET : Account/SignUp
         public IActionResult SignUp()
         {
@@ -58,9 +57,7 @@ namespace Company.Owner.PL.Controllers
             }  
             return View(model);
         }
-        #endregion
 
-        #region SignIn
         [HttpGet]
         public IActionResult SignIn()
         {
@@ -89,10 +86,12 @@ namespace Company.Owner.PL.Controllers
             }
             return View(model);
         }
-        #endregion
 
-        #region SignOut
-
-        #endregion
+        [HttpGet]
+        public new async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(SignUp));
+        }
     }
 }
