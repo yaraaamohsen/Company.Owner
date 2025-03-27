@@ -3,8 +3,10 @@ using Company.Owner.BLL;
 using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Data.Contexts;
+using Company.Owner.DAL.Models;
 using Company.Owner.PL.Mapping;
 using Company.Owner.PL.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Owner.PL
@@ -25,6 +27,9 @@ namespace Company.Owner.PL
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
+
+            builder.Services.AddIdentity<AppUser, IdentityRole>()
+                            .AddEntityFrameworkStores<CompanyDbContext>(); 
 
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
