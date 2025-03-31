@@ -122,11 +122,49 @@ namespace Company.Owner.PL.Controllers
                     if (Flag)
                     {
                         // Check Ypur Inbox
+                        return RedirectToAction("CheckYourInbox");
                     }
                 }
             }
             ModelState.AddModelError("", "Invalid Reset Password");
             return View("ForgetPassword", model);
+        }
+
+        [HttpGet]
+        public IActionResult checkYourInbox()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            TempData["Email"] = email;
+            TempData["Token"] = token;
+            return View();
+        }
+        
+        [HttpPost] //P@ssW0rd01
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                var email = TempData["Email"] as string;
+                var token = TempData["Token"] as string;
+             
+                if(email is null || token is null) return BadRequest("Invalid Data");
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user is not null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, token, model.ConfirmNewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("SignIn");
+                    }
+                }
+                ModelState.AddModelError("", "Invalid Reset Password");
+            }
+            return View();
         }
     }
 }

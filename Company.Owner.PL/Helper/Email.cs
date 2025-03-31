@@ -1,4 +1,6 @@
-﻿namespace Company.Owner.PL.Helper
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Company.Owner.PL.Helper
 {
     public class Email
     {
