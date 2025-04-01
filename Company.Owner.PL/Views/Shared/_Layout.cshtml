@@ -36,6 +36,9 @@
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white btn btn-danger" asp-area="" asp-controller="Account" asp-action="SignOut">SignOut</a>
                         </li>
                     </ul>
@@ -46,11 +49,12 @@
     @*End Header*@
    
     @*Start Body*@
-    <div class="container">
-        <main role="main" class="pb-3">
+  
+    <main role="main" class="pb-3">
+        <div class="container">
             @RenderBody()
-        </main>
-    </div>
+        </div>
+    </main>
     @*End Body*@
    
 

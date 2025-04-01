@@ -109,6 +109,12 @@ namespace Company.Owner.PL.Controllers
             return GetEmpByIdAsync(id, "Edit");
         }
 
+        [HttpGet]
+        public Task<IActionResult> Delete(int? id)
+        {
+            return GetEmpByIdAsync(id, "Delete");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromRoute]int id,CreateEmployeeDto model)
@@ -135,11 +141,6 @@ namespace Company.Owner.PL.Controllers
             return View(model);
             }
 
-        [HttpGet]
-        public Task<IActionResult> Delete(int? id)
-        {
-            return GetEmpByIdAsync(id, "Delete");
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
