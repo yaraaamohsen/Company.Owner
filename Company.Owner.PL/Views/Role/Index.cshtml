@@ -1,0 +1,57 @@
+﻿@model IEnumerable<RoleToReturnDto>;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Roles</h1>
+
+<form>
+    <div>
+        <input id="InputVal" placeholder="Search By Role Name" name="SearchInput" class="form-control" />
+        <input type="submit" class="btn btn-success my-2" value="Search" />
+    </div>
+</form>
+
+
+<a asp-action="Create" asp-controller="Role" class="btn btn-primary my-3">Create Role</a>
+
+@if(!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    <div class="m-3 alert alert-info">
+        <p>@TempData["Message"]</p>
+    </div>  
+}
+
+@if(Model.Count() > 0)
+{
+    <div class="table-responsive">
+        <table class="overflow-hidden table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <partial name="_buttonsPartialView" model="@item.Id?.ToString()" />
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+   
+}
+else
+{
+    <h4 class="mt-4 alert alert-danger"> There Are No Roles :(</h4>
+}
+

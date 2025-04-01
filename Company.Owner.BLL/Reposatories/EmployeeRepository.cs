@@ -19,9 +19,13 @@ namespace Company.Owner.BLL.Reposatories
             _context = context;
         }
 
-        public List<Employee> GetByName(string name)
+        public async Task<IEnumerable<Employee>> GetByNameAsync(string name)
         {
-            return _context.employees.Include(E=> E.department).Where(E => E.Name.ToLower().Contains(name.ToLower())).ToList();
+            return await _context.employees
+                .Include(E=> E.department)
+                .Where(E => E.Name.ToLower()
+                .Contains(name.ToLower()))
+                .ToListAsync();
         }
     }
 }

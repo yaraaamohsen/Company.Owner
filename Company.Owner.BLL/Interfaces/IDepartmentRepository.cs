@@ -9,10 +9,5 @@ namespace Company.Owner.BLL.Interfaces
 {
     public interface IDepartmentRepository : IGenericRepository<Department>
     {
-        //IEnumerable<Department> GetAll();
-        //Department? Get(int id);
-        //int Add(Department Model);
-        //int Update(Department Model);
-        //int Delete(Department Model);
     }
 }
