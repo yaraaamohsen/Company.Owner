@@ -60,17 +60,25 @@ namespace Company.Owner.PL.Controllers
         {
             if(ModelState.IsValid)
             {
-                if (model.Image is not null)
+                try
                 {
-                   model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
+                    if (model.Image is not null)
+                    {
+                        model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
+                    }
+                    var employee = _Mapper.Map<Employee>(model);
+                    await _unitOfWork.employeeRemository.AddAsync(employee);
+                    var count = await _unitOfWork.CompleteAsync();
+                    if (count > 0)
+                    {
+                        //TempData["Message"] = "Employee Is Created !!";
+                        TempData["toastr-success"] = "Employee created successfully!";
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
-                var employee = _Mapper.Map<Employee>(model);
-                await _unitOfWork.employeeRemository.AddAsync(employee);
-                var count = await _unitOfWork.CompleteAsync();
-                if (count > 0)
+                catch (Exception e)
                 {
-                    TempData["Message"] = "Employee Is Created !!";
-                    return RedirectToAction(nameof(Index));
+                    TempData["toastr-error"] = $"Error creating employee: {e.Message}";
                 }
             }
             return View();
@@ -135,9 +143,11 @@ namespace Company.Owner.PL.Controllers
                 var count = await _unitOfWork.CompleteAsync();
                 if (count > 0)
                 {
+                    TempData["toastr-success"] = "Employee edited successfully!";
                     return RedirectToAction(nameof(Index));
                 }
             }
+            TempData["toastr-error"] = "Validation errors";
             return View(model);
             }
 
@@ -160,9 +170,11 @@ namespace Company.Owner.PL.Controllers
                     {
                     DocumentSettings.DeleteFile(model.ImageName, "Images");
                     }
+                    TempData["toastr-success"] = "Employee Deleted successfully!";
                     return RedirectToAction(nameof(Index));
                 }
             }
+            TempData["toastr-error"] = "Error in deletion request";
             return View(model);
         }
     }

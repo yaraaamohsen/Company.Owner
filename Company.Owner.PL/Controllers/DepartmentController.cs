@@ -50,9 +50,13 @@ namespace Company.Owner.PL.Controllers
                 var count = await _unitOfWork.CompleteAsync();
                 if (count > 0)
                 {
+                    TempData["toastr-success"] = "Department edited successfully!";
                     return RedirectToAction(nameof(Index));
                 }
+                TempData["toastr-error"] = "Request Failed";
+
             }
+            TempData["toastr-error"] = "Validation errors";
             return View();
 
         }
@@ -88,8 +92,13 @@ namespace Company.Owner.PL.Controllers
                 if(id != department.Id) return BadRequest("Not Selected Id");
                 _unitOfWork.departmentRepository.Update(department);
                 var count = await _unitOfWork.CompleteAsync();
-                if (count > 0) return RedirectToAction(nameof(Index));
+                if (count > 0)
+                {
+                    TempData["toastr-success"] = "Department Updated successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            TempData["toastr-error"] = "Validation errors";
             return View(department);
         }
 
@@ -109,8 +118,13 @@ namespace Company.Owner.PL.Controllers
 
                 _unitOfWork.departmentRepository.Delete(department);
                 var count = await _unitOfWork.CompleteAsync();
-                if (count > 0) return RedirectToAction(nameof(Index));
+                if (count > 0)
+                {
+                    TempData["toastr-success"] = "Department Deleted successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            TempData["toastr-error"] = "Validation errors";
             return View(department);
         }
 
