@@ -2,14 +2,27 @@
 @{
     ViewData["Title"] = "AddOrRemoveUsers";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var RoleId = ViewData["RoleId"] as string;
 }
 
 <h1>AddOrRemoveUsers</h1>
 
-@for(int i = 0; i < Model.Count; i++)
-{
-    <div class="form-group">
-        <input asp-for="@Model[i].IsSelected" />
-        <label asp-for="@Model[i].IsSelected">@Model[i].UserName</label>
-    </div>
-}
+<form asp-action="AddOrRemoveUsers" asp-route-roleId="@RoleId" class="py-3">
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="form-group">
+            <input asp-for="@Model[i].IsSelected" />
+            <label asp-for="@Model[i].IsSelected">@Model[i].UserName</label>
+        </div>
+
+        <input asp-for="@Model[i].UserName" type="hidden" />
+        <input asp-for="@Model[i].UserId" type="hidden"/>
+    }
+
+    <input type="submit" value="Update" class="btn btn-success" />
+    <a asp-action="Edit" asp-route-id="@RoleId" class="btn btn-light">Cancel</a>
+
+</form>
+
