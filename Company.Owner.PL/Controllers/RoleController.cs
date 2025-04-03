@@ -42,6 +42,7 @@ namespace Company.Owner.PL.Controllers
                     var result = await _roleManager.CreateAsync(role);
                     if (result.Succeeded)
                     {
+                        TempData["toastr-success"] = "Role Created successfully!";
                         return RedirectToAction(nameof(Index));
                     }
                 }
@@ -132,6 +133,7 @@ namespace Company.Owner.PL.Controllers
 
                     if (result.Succeeded)
                     {
+                        TempData["toastr-success"] = "Role Updated successfully!";
                         return RedirectToAction(nameof(Index));
                     }
                 }
@@ -140,9 +142,9 @@ namespace Company.Owner.PL.Controllers
                 //var AddOrRemoveUsersStatus = Request.Query["status"].FirstOrDefault();
                 if (AddOrRemoveUsersStatus == "true")
                 {
+                    TempData["toastr-success"] = "Role Updated successfully!";
                     return RedirectToAction(nameof(Index));
                 }
-
                 ModelState.AddModelError("","Invalid Operation");
             }
             return View(model);
@@ -169,6 +171,7 @@ namespace Company.Owner.PL.Controllers
 
                 if (result.Succeeded)
                 {
+                    TempData["toastr-success"] = "Role Deleted successfully!";
                     return RedirectToAction(nameof(Index));
                 }
                 ModelState.AddModelError("", "Invalid Operation");
@@ -227,6 +230,7 @@ namespace Company.Owner.PL.Controllers
                     }
                 }
                 TempData["AddOrRemoveUsersStatus"] = "true";
+                TempData["toastr-success"] = "Role Members Updated successfully!";
                 return RedirectToAction(nameof(Edit), new {id = roleId});
             }
             return View(users);

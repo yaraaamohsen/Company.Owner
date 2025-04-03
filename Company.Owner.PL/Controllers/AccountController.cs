@@ -10,11 +10,13 @@ namespace Company.Owner.PL.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IMailService _mailService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailService mailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mailService = mailService;
         }
 
         [HttpGet] // GET : Account/SignUp
@@ -118,12 +120,11 @@ namespace Company.Owner.PL.Controllers
                         Subject = "Reset Password",
                         Body = url
                     };
-                    var Flag = EmailSetting.SendEmail(email);
-                    if (Flag)
-                    {
-                        // Check Ypur Inbox
-                        return RedirectToAction("CheckYourInbox");
-                    }
+                    //var Flag = EmailSetting.SendEmail(email);
+
+                    _mailService.SendEmail(email);
+                    return RedirectToAction("CheckYourInbox");
+                    
                 }
             }
             ModelState.AddModelError("", "Invalid Reset Password");

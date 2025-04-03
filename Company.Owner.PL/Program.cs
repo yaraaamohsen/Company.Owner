@@ -4,8 +4,10 @@ using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Data.Contexts;
 using Company.Owner.DAL.Models;
+using Company.Owner.PL.Helper;
 using Company.Owner.PL.Mapping;
 using Company.Owner.PL.Services;
+using Company.Owner.PL.Setting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +26,7 @@ namespace Company.Owner.PL
             //builder.Services.AddAutoMapper(typeof(EmployeeProfile));
             
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IMailService, MailSrvice>();
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
@@ -42,6 +45,9 @@ namespace Company.Owner.PL
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // As GetConnectionString built in
                 //options.UseSqlServer(builder.Configuration["DefaultConnection"]); // in case it's user function
             }); // Allow Dependacy Injection For CompanyDbContext
+
+            builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
+
 
             #region Services Life Time
             // It depends On Lifetime
