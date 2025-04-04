@@ -56,22 +56,21 @@ namespace Company.Owner.PL
             builder.Services.ConfigureApplicationCookie(config =>
             {
                 config.LoginPath = "/Account/SignIn";
-                config.LogoutPath = "/Home/SignIn";
             });
 
 
-            // To Login With Google
-            builder.Services.AddAuthentication(O =>
-            {
-                O.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
-                O.DefaultScheme = IdentityConstants.ApplicationScheme;
-                O.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                O.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+            //// To Login With Google
+            //builder.Services.AddAuthentication(O =>
+            //{
+            //    O.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+            //    O.DefaultScheme = IdentityConstants.ApplicationScheme;
+            //    O.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            //    O.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
 
-            }).AddGoogle(O => {
-                O.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-                O.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-            });
+            //}).AddGoogle(O => {
+            //    O.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+            //    O.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+            //});
 
 
 
