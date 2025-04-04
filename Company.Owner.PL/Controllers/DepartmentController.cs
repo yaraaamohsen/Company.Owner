@@ -10,9 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Company.Owner.PL.Controllers
 {
-    // MVC Controller
-    [Authorize]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class DepartmentController : Controller
     {
