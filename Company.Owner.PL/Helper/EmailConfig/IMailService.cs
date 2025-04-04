@@ -1,4 +1,4 @@
-﻿namespace Company.Owner.PL.Helper
+﻿namespace Company.Owner.PL.Helper.EmailSetting
 {
     public interface IMailService
     {

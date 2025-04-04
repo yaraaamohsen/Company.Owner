@@ -4,7 +4,8 @@ using Company.Owner.BLL.Interfaces;
 using Company.Owner.BLL.Reposatories;
 using Company.Owner.DAL.Data.Contexts;
 using Company.Owner.DAL.Models;
-using Company.Owner.PL.Helper;
+using Company.Owner.PL.Helper.EmailSetting;
+using Company.Owner.PL.Helper.SmsConfig;
 using Company.Owner.PL.Mapping;
 using Company.Owner.PL.Services;
 using Company.Owner.PL.Setting;
@@ -27,6 +28,7 @@ namespace Company.Owner.PL
             
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IMailService, MailSrvice>();
+            builder.Services.AddScoped<ITwilioService, TwilioService>();
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
@@ -47,6 +49,7 @@ namespace Company.Owner.PL
             }); // Allow Dependacy Injection For CompanyDbContext
 
             builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
+            builder.Services.Configure<TwilioSetting>(builder.Configuration.GetSection(nameof(TwilioSetting)));
 
 
             #region Services Life Time

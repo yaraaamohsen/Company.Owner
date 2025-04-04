@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
 
-namespace Company.Owner.PL.Helper
+namespace Company.Owner.PL.Helper.EmailSetting
 {
     public static class EmailSetting
     {
@@ -17,10 +17,10 @@ namespace Company.Owner.PL.Helper
                 client.EnableSsl = true;
                 client.Credentials = new NetworkCredential("0yaramohsen00@gmail.com", "roiegmoclicxstkm");
                 client.Send("0yaramohsen00@gmail.com", email.To, email.Subject, email.Body);
-                
+
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
