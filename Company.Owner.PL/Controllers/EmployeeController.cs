@@ -47,6 +47,27 @@ namespace Company.Owner.PL.Controllers
 
             return View(employees);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string? SearchInput)
+        {
+            IEnumerable<Employee> employees;
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                employees = await _unitOfWork.employeeRemository.GetAllAsync();
+            }
+            else
+            {
+                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);
+            }
+
+            if (employees.Any())
+            {
+                return PartialView("EmployeePartialView/EmployeesTablePartialView", employees);
+            }
+
+            return Content("<tr><td colspan='15'>No employees found</td></tr>");
+        }
         
         public async Task<IActionResult> Create()
         {
@@ -117,6 +138,7 @@ namespace Company.Owner.PL.Controllers
             return GetEmpByIdAsync(id, "Edit");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<IActionResult> Delete(int? id)
         {
@@ -151,7 +173,7 @@ namespace Company.Owner.PL.Controllers
             return View(model);
             }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([FromRoute] int id, Employee model)

@@ -2,6 +2,9 @@
 using Company.Owner.PL.Dtos;
 using Company.Owner.PL.Helper.EmailSetting;
 using Company.Owner.PL.Helper.SmsConfig;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +64,7 @@ namespace Company.Owner.PL.Controllers
                             ModelState.AddModelError("", error.Description);
                         }
                     }
+                    ModelState.AddModelError("", "Email Is Already Token");
                 }
                 ModelState.AddModelError("", "Invalid Login");
             }  
@@ -203,6 +207,55 @@ namespace Company.Owner.PL.Controllers
                 ModelState.AddModelError("", "Invalid Reset Password");
             }
             return View();
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        public IActionResult GoogleLogin()
+        {
+            var prop = new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+            return Challenge(prop, GoogleDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+            var cliams = result.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
+            {
+                claim.Type,
+                claim.Value,
+                claim.Issuer,
+                claim.OriginalIssuer
+            });
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult FacebookLogin()
+        {
+            var prop = new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("FacebookResponse")
+            };
+            return Challenge(prop, FacebookDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> FacebookResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(FacebookDefaults.AuthenticationScheme);
+            var cliams = result.Principal.Identities.FirstOrDefault().Claims.Select(claim => new
+            {
+                claim.Type,
+                claim.Value,
+                claim.Issuer,
+                claim.OriginalIssuer
+            });
+            return RedirectToAction("Index", "Home");
         }
     }
 }

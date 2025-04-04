@@ -9,8 +9,11 @@ using Company.Owner.PL.Helper.SmsConfig;
 using Company.Owner.PL.Mapping;
 using Company.Owner.PL.Services;
 using Company.Owner.PL.Setting;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Company.Owner.PL
 {
@@ -19,6 +22,19 @@ namespace Company.Owner.PL
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+
+            //// To Login With Facebook
+            //builder.Services.AddAuthentication(O =>
+            //{
+            //    O.DefaultAuthenticateScheme = FacebookDefaults.AuthenticationScheme;
+            //    O.DefaultChallengeScheme = FacebookDefaults.AuthenticationScheme;
+
+            //}).AddFacebook(O => {
+            //    O.ClientId = builder.Configuration["Authentication:Facebook:ClientId"];
+            //    O.ClientSecret = builder.Configuration["Authentication:Facebook:ClientSecret"];
+            //});
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -42,6 +58,23 @@ namespace Company.Owner.PL
                 config.LoginPath = "/Account/SignIn";
             });
 
+
+            //// To Login With Google
+            //builder.Services.AddAuthentication(O =>
+            //{
+            //    O.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+            //    O.DefaultScheme = IdentityConstants.ApplicationScheme;
+            //    O.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            //    O.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+
+            //}).AddGoogle(O => {
+            //    O.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+            //    O.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+            //});
+
+
+
+            // To Build Connection
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // As GetConnectionString built in
