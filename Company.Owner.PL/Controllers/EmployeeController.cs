@@ -61,9 +61,14 @@ namespace Company.Owner.PL.Controllers
                 employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);
             }
 
-            return View(employees);
-        }
+            if (employees.Any())
+            {
+                return PartialView("EmployeePartialView/EmployeesTablePartialView", employees);
+            }
 
+            return Content("<tr><td colspan='15'>No employees found</td></tr>");
+        }
+        
         public async Task<IActionResult> Create()
         {
             var department = await _unitOfWork.departmentRepository.GetAllAsync();

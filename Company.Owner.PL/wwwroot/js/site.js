@@ -3,24 +3,24 @@
 
 // Write your JavaScript code.
 
-let SearchInput = document.getElementById("InputVal");
-SearchInput.addEventListener("keyup", () => {
+    $(document).ready(function () {
+        const searchBar = $('#InputVal');
+    const table = $('table');
 
-    // Creating Our XMLHttpRequest object 
-    let xhr = new XMLHttpRequest();
+        searchBar.on('keyup', function (event) {
+            console.log("new new hello");
+            var searchValue = searchBar.val();
 
-    // Making our connection  
-    let url = `https://localhost:44393/?SearchInput=${SearchInput.value}`;
-    xhr.open("GET", url, true);
-
-    // function execute after request is successful 
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            //console.log(this.responseText);
-            console.log("hello");
-            
-        }
-    }
-    // Sending our request 
-    xhr.send();
-})
+    $.ajax({
+        url: '/Employee/Search',
+    type: 'Get',
+        data: { SearchInput: searchValue },
+    success: function (result) {
+        table.html(result);
+                },
+    error: function (xhr, status, error) {
+        console.log(error);
+                }
+            });
+        });
+    });

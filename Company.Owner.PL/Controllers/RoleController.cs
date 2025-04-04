@@ -20,6 +20,57 @@ namespace Company.Owner.PL.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Index(string? SearchInput)
+        {
+            IEnumerable<RoleToReturnDto> roles;
+
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                roles = _roleManager.Roles.Select(R => new RoleToReturnDto()
+                {
+                    Id = R.Id,
+                    Name = R.Name
+                });
+            }
+            else
+            {
+                roles = _roleManager.Roles.Select(R => new RoleToReturnDto()
+                {
+                    Id = R.Id,
+                    Name = R.Name
+                }).Where(R => R.Name.ToLower().Contains(SearchInput.ToLower()));
+            }
+
+            return View(roles);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string? SearchInput)
+        {
+            IEnumerable<RoleToReturnDto> roles;
+
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                roles = _roleManager.Roles.Select(R => new RoleToReturnDto()
+                {
+                    Id = R.Id,
+                    Name = R.Name
+                });
+            }
+            else
+            {
+                roles = _roleManager.Roles.Select(R => new RoleToReturnDto()
+                {
+                    Id = R.Id,
+                    Name = R.Name
+                }).Where(R => R.Name.ToLower().Contains(SearchInput.ToLower()));
+            }
+
+            return PartialView("RolePartialView/RoleTablePartialView");
+        }
+
 
         public IActionResult Create()
         {
@@ -48,31 +99,6 @@ namespace Company.Owner.PL.Controllers
                 }
             }
             return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Index(string? SearchInput)
-        {
-            IEnumerable<RoleToReturnDto> roles;
-
-            if (String.IsNullOrEmpty(SearchInput))
-            {
-                roles = _roleManager.Roles.Select(R => new RoleToReturnDto()
-                {
-                    Id = R.Id,
-                    Name = R.Name
-                });
-            }
-            else
-            {
-                roles = _roleManager.Roles.Select(R => new RoleToReturnDto()
-                {
-                    Id = R.Id,
-                    Name = R.Name
-                }).Where(R => R.Name.ToLower().Contains(SearchInput.ToLower()));
-            }
-
-            return View(roles);
         }
 
         [HttpGet]

@@ -11,7 +11,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace Company.Owner.PL.Controllers
 {
     // MVC Controller
-    [Authorize(Roles = "Admin")]
+    [Authorize]
+    //[Authorize(Roles = "Admin")]
 
     public class DepartmentController : Controller
     {
