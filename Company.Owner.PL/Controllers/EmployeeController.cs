@@ -47,7 +47,23 @@ namespace Company.Owner.PL.Controllers
 
             return View(employees);
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string? SearchInput)
+        {
+            IEnumerable<Employee> employees;
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                employees = await _unitOfWork.employeeRemository.GetAllAsync();
+            }
+            else
+            {
+                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);
+            }
+
+            return View(employees);
+        }
+
         public async Task<IActionResult> Create()
         {
             var department = await _unitOfWork.departmentRepository.GetAllAsync();
@@ -117,6 +133,7 @@ namespace Company.Owner.PL.Controllers
             return GetEmpByIdAsync(id, "Edit");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<IActionResult> Delete(int? id)
         {
@@ -151,7 +168,7 @@ namespace Company.Owner.PL.Controllers
             return View(model);
             }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([FromRoute] int id, Employee model)
