@@ -9,6 +9,8 @@ using Company.Owner.PL.Helper.SmsConfig;
 using Company.Owner.PL.Mapping;
 using Company.Owner.PL.Services;
 using Company.Owner.PL.Setting;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +42,17 @@ namespace Company.Owner.PL
             builder.Services.ConfigureApplicationCookie(config =>
             {
                 config.LoginPath = "/Account/SignIn";
+                config.LogoutPath = "/Home/SignIn";
+            });
+
+            builder.Services.AddAuthentication(O =>
+            {
+                O.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+                O.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+
+            }).AddGoogle(O =>{
+                O.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                O.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             });
 
             builder.Services.AddDbContext<CompanyDbContext>(options =>
