@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Company.Owner.PL.Helper
+namespace Company.Owner.PL.Helper.EmailSetting
 {
     public class Email
     {

@@ -2,7 +2,7 @@
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
-namespace Company.Owner.PL.Helper
+namespace Company.Owner.PL.Helper.EmailSetting
 {
     public class MailSrvice(IOptions<MailSettings> _options) : IMailService
     {

@@ -1,6 +1,7 @@
 ﻿using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
-using Company.Owner.PL.Helper;
+using Company.Owner.PL.Helper.EmailSetting;
+using Company.Owner.PL.Helper.SmsConfig;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,17 @@ namespace Company.Owner.PL.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMailService _mailService;
+        private readonly ITwilioService _twilioService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailService mailService)
+        public AccountController(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            IMailService mailService,
+            ITwilioService twilioService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mailService = mailService;
+            _twilioService = twilioService;
         }
 
         [HttpGet] // GET : Account/SignUp
@@ -131,8 +137,39 @@ namespace Company.Owner.PL.Controllers
             return View("ForgetPassword", model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SendResetPasswordSms(ForgetPasswordDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user is not null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var url = Url.Action("ResetPassword", "Account", new { email = model.Email, token }, Request.Scheme);
+                    var sms = new Sms()
+                    {
+                        To = user.PhoneNumber,
+                        Body = url
+                    };
+                    _twilioService.SendSms(sms);
+                    return RedirectToAction("CheckYourPhone");
+
+                }
+            }
+            ModelState.AddModelError("", "Invalid Reset Password");
+            return View("ForgetPassword", model);
+        }
+
         [HttpGet]
         public IActionResult checkYourInbox()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CheckYourPhone()
         {
             return View();
         }
