@@ -6,9 +6,8 @@
 <h1>All Roles</h1>
 
 <form>
-    <div>
-        <input id="InputVal" placeholder="Search By Role Name" name="SearchInput" class="form-control" />
-        <input type="submit" class="btn btn-success my-2" value="Search" />
+    <div class="py-2">
+        <input id="InputVal" placeholder="Search By Role Name" data-search-url="/Role/Search" data-target-table="table" name="SearchInput" class="form-control" />
     </div>
 </form>
 
@@ -55,3 +54,28 @@ else
     <h4 class="mt-4 alert alert-danger"> There Are No Roles :(</h4>
 }
 
+<script>
+
+    $(document).ready(function () {
+        const searchBar = $('#RoleInputVal');
+        const table = $('table');
+
+        searchBar.on('keyup', function (event) {
+            var searchValue = searchBar.val();
+                            console.log("hello frol role");
+
+            $.ajax({
+                url: '/Role/Search',
+                type: 'Get',
+                data: { SearchInput: searchValue },
+                success: function (result) {
+                    table.html(result);
+                },
+                error: function (xhr, status, error) {
+                console.log(error);
+                }
+            });
+        });
+    });
+
+</script>

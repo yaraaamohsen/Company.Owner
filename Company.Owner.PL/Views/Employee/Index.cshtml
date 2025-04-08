@@ -1,31 +1,19 @@
 ﻿@model IEnumerable<Employee>;
 @{
     ViewData["Title"] = "Index";
-    // ViewData["Message"];
-    // string? ViewDatamessage = ViewData["Message"] as string;
-    // string? ViewBagmessage = ViewBag["Message"] as string;
 }
 
 <h1>All Employees</h1>
 
 <form>
-    <div>
-        <input id="InputVal" placeholder="Search By Employee Name" name="SearchInput" class="form-control" />
-        <input type="submit" class="btn btn-success my-2" value="Search" />
+    <div class="py-2">
+        <input id="InputVal" placeholder="Search By Employee Name" data-search-url="/Employee/Search" data-target-table="table" class="form-control" />
+        @* <input type="submit" class="btn btn-success my-2" value="Search" /> *@
     </div>
 </form>
 
 
 <a asp-action="Create" asp-controller="Employee" class="btn btn-primary my-3">Add Employee</a>
-
-
-@* <div> *@     
-@*     <p>@ViewData["Message"]</p> *@
-@* </div> *@
-
-@*<div>
-    <p>@ViewData["Message"]</p>
-</div>*@ 
 
 @if(!string.IsNullOrEmpty(TempData["Message"] as string))
 {
@@ -82,8 +70,6 @@
             </tbody>
         </table>
     </div>
-
-   
 }
 else
 {

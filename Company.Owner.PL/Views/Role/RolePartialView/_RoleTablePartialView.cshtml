@@ -1,0 +1,10 @@
+﻿@model IEnumerable<RoleToReturnDto>;
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Id</td>
+        <td>@item.Name</td>
+        <partial name="_buttonsPartialView" model="@item.Id?.ToString()" />
+    </tr>
+}

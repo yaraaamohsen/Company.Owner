@@ -30,4 +30,11 @@
     <Folder Include="wwwroot\Files\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Department\DepartmentPartialView\DepartmentsTablePartialView.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

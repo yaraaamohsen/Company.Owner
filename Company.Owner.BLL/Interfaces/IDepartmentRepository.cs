@@ -9,5 +9,6 @@ namespace Company.Owner.BLL.Interfaces
 {
     public interface IDepartmentRepository : IGenericRepository<Department>
     {
+        Task<IEnumerable<Department>> GetByNameAsync(string name);
     }
 }

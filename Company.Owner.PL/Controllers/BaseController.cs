@@ -2,30 +2,45 @@
 
 namespace Company.Owner.PL.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
-        public class BaseSearchController : Controller
+        protected readonly ILogger<BaseController> _logger;
+
+        protected BaseController(ILogger<BaseController> logger)
         {
-            protected async Task<IActionResult> GetSearchResult<T>(string searchInput,
-                Func<string, Task<IEnumerable<T>>> searchFunc,
-                string partialViewPath)
+            _logger = logger;
+        }
+
+        protected async Task<IActionResult> PerformSearch<T>(
+            string searchInput,
+            Func<string, Task<IEnumerable<T>>> emptySearchFunc,
+            Func<string, Task<IEnumerable<T>>> filteredSearchFunc,
+            string partialViewName)
+        {
+            try
             {
                 IEnumerable<T> results;
-                if (string.IsNullOrEmpty(searchInput))
+
+                if (string.IsNullOrWhiteSpace(searchInput))
                 {
-                    results = await searchFunc("");
+                    results = await emptySearchFunc("");
                 }
                 else
                 {
-                    results = await searchFunc(searchInput);
+                    results = await filteredSearchFunc(searchInput);
                 }
 
-                if (results.Any())
+                if (results == null || !results.Any())
                 {
-                    return PartialView(partialViewPath, results);
+                    return Content("<tr><td colspan='15'>No records found</td></tr>");
                 }
 
-                return Content("<tr><td colspan='15'>No records found</td></tr>");
+                return PartialView(partialViewName, results);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Search operation failed");
+                return Content("<tr><td colspan='15'>Error during search operation</td></tr>");
             }
         }
     }

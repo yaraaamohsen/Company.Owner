@@ -2,6 +2,7 @@
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Company.Owner.PL.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace Company.Owner.PL.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -68,9 +70,8 @@ namespace Company.Owner.PL.Controllers
                 }).Where(R => R.Name.ToLower().Contains(SearchInput.ToLower()));
             }
 
-            return PartialView("RolePartialView/RoleTablePartialView");
+            return PartialView("RolePartialView/_RoleTablePartialView", roles);
         }
-
 
         public IActionResult Create()
         {

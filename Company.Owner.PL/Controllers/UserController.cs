@@ -1,11 +1,13 @@
 ﻿using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Company.Owner.PL.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Owner.PL.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -14,6 +16,7 @@ namespace Company.Owner.PL.Controllers
         {
             _userManager = userManager;
         }
+        
         [HttpGet]
         public async Task<IActionResult> Index(string? SearchInput)
         {
@@ -45,6 +48,37 @@ namespace Company.Owner.PL.Controllers
             }
            
             return View(users);
+        }
+
+        public async Task<IActionResult> Search(string? SearchInput)
+        {
+            IEnumerable<UserToReturnDto> users;
+
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                users = _userManager.Users.Select(U => new UserToReturnDto()
+                {
+                    Id = U.Id,
+                    Name = U.UserName,
+                    FirstName = U.FirstName,
+                    LastName = U.LastName,
+                    Email = U.Email,
+                    Roles = _userManager.GetRolesAsync(U).Result
+                });
+            }
+            else
+            {
+                users = _userManager.Users.Select(U => new UserToReturnDto()
+                {
+                    Id = U.Id,
+                    Name = U.UserName,
+                    FirstName = U.FirstName,
+                    LastName = U.LastName,
+                    Email = U.Email,
+                    Roles = _userManager.GetRolesAsync(U).Result
+                }).Where(U => U.FirstName.ToLower().Contains(SearchInput.ToLower()));
+            }
+            return PartialView("UsersPartialView/_RoleTablePartialView", users);
         }
 
         [HttpGet]

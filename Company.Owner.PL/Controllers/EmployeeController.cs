@@ -30,11 +30,11 @@ namespace Company.Owner.PL.Controllers
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(SearchInput))
             {
-                employees = await _unitOfWork.employeeRemository.GetAllAsync();
+                employees = await _unitOfWork.employeeRepository.GetAllAsync();
             }
             else
             {
-                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);  
+                employees = await _unitOfWork.employeeRepository.GetByNameAsync(SearchInput);  
             }
             //// Dictionary  : this 3 property imherited from Controller Class
             //// 1. ViewData : Transfer Extra Information From Controller (Action) To View
@@ -54,11 +54,11 @@ namespace Company.Owner.PL.Controllers
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(SearchInput))
             {
-                employees = await _unitOfWork.employeeRemository.GetAllAsync();
+                employees = await _unitOfWork.employeeRepository.GetAllAsync();
             }
             else
             {
-                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);
+                employees = await _unitOfWork.employeeRepository.GetByNameAsync(SearchInput);
             }
 
             if (employees.Any())
@@ -68,7 +68,7 @@ namespace Company.Owner.PL.Controllers
 
             return Content("<tr><td colspan='15'>No employees found</td></tr>");
         }
-        
+
         public async Task<IActionResult> Create()
         {
             var department = await _unitOfWork.departmentRepository.GetAllAsync();
@@ -88,7 +88,7 @@ namespace Company.Owner.PL.Controllers
                         model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
                     }
                     var employee = _Mapper.Map<Employee>(model);
-                    await _unitOfWork.employeeRemository.AddAsync(employee);
+                    await _unitOfWork.employeeRepository.AddAsync(employee);
                     var count = await _unitOfWork.CompleteAsync();
                     if (count > 0)
                     {
@@ -110,7 +110,7 @@ namespace Company.Owner.PL.Controllers
         {
             if (id is null) return BadRequest("Id Is null");
 
-            var employee = await _unitOfWork.employeeRemository.GetByIdAsync(id.Value);
+            var employee = await _unitOfWork.employeeRepository.GetByIdAsync(id.Value);
             
             if (employee is null) return NotFound("There is no emplyee matches the ID ");
             
@@ -161,7 +161,7 @@ namespace Company.Owner.PL.Controllers
                 }
                 var employee = _Mapper.Map<Employee>(model);
                 employee.Id = id;
-                _unitOfWork.employeeRemository.Update(employee);
+                _unitOfWork.employeeRepository.Update(employee);
                 var count = await _unitOfWork.CompleteAsync();
                 if (count > 0)
                 {
@@ -182,7 +182,7 @@ namespace Company.Owner.PL.Controllers
             {
                 if (id != model.Id) return BadRequest("Not Selected Id");
 
-                _unitOfWork.employeeRemository.Delete(model);
+                _unitOfWork.employeeRepository.Delete(model);
 
                 var count = await _unitOfWork.CompleteAsync();
 

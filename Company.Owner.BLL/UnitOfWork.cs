@@ -15,12 +15,12 @@ namespace Company.Owner.BLL
 
         public IDepartmentRepository departmentRepository { get; } // NULL
 
-        public IEmployeeRemository employeeRemository { get; } // NULL
+        public IEmployeeRemository employeeRepository { get; } // NULL
         public UnitOfWork(CompanyDbContext context)
         {
             _context = context;
             departmentRepository = new DepartmentRepository(_context);
-            employeeRemository = new EmployeeRepository(_context);
+            employeeRepository = new EmployeeRepository(_context);
         }
 
         public async Task<int> CompleteAsync()

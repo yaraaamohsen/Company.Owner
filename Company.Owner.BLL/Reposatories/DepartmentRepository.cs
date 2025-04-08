@@ -12,7 +12,20 @@ namespace Company.Owner.BLL.Reposatories
 {
     public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
     {
-        public DepartmentRepository(CompanyDbContext context) : base(context) { }
+        private readonly CompanyDbContext _context;
+
+        public DepartmentRepository(CompanyDbContext context) : base(context)
+        {
+            this._context = context;
+        }
+
+        public async Task<IEnumerable<Department>> GetByNameAsync(string name)
+        {
+            return await _context.Departments
+                .Where(D => D.Name.ToLower()
+                .Contains(name.ToLower()))
+                .ToListAsync();
+        }
 
     }
 }
