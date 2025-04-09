@@ -25,7 +25,7 @@
 @if(Model.Count() > 0)
 {
     <div class="table-responsive">
-        <table class=" vw-100 overflow-hidden table table-hover table-striped">
+        <table class=" vw-100 overflow-hidden table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -42,9 +42,7 @@
                     <th>Department</th>
                     @if(User.IsInRole("Admin"))
                     {
-                        <th>Details</th>
-                        <th>update</th>
-                        <th>Delete</th>
+                        <th>ACTIONS</th>
                     }
                    
                 </tr>
@@ -68,7 +66,7 @@
                         <td>@item.IsDeleted</td>
                         <td>@(item.department != null ? item.department?.Name : "NA")</td>
                         @if(User.IsInRole("Admin"))
-                        {
+                        {  
                         <partial name="_buttonsPartialView" model="@item.Id.ToString()" />
                         }
                     </tr>

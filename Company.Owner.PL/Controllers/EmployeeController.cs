@@ -55,7 +55,7 @@ namespace Company.Owner.PL.Controllers
 
             if (employees.Any())
             {
-                return PartialView("EmployeePartialView/EmployeesTablePartialView", employees);
+                return PartialView("EmployeePartialView/_EmployeesTablePartialView", employees);
             }
 
             return Content("<tr><td colspan='15'>No employees found</td></tr>");

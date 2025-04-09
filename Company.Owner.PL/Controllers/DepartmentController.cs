@@ -47,7 +47,7 @@ namespace Company.Owner.PL.Controllers
 
             if (departments.Any())
             {
-                return PartialView("DepartmentPartialView/DepartmentsTablePartialView", departments);
+                return PartialView("DepartmentPartialView/_DepartmentsTablePartialView", departments);
             }
 
             return Content("<tr><td colspan='15'>No departmens found</td></tr>");

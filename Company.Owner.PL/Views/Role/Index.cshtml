@@ -24,16 +24,14 @@
 @if(Model.Count() > 0)
 {
     <div class="table-responsive">
-        <table class="overflow-hidden table table-hover table-striped">
+        <table class="overflow-hidden table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
                     @if(User.IsInRole("Admin"))
                     {
-                        <th>Details</th>
-                        <th>update</th>
-                        <th>Delete</th>
+                        <th>Actions</th>
                     }
                 </tr>
             </thead>

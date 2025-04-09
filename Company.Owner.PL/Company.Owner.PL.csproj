@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Department\DepartmentPartialView\DepartmentsTablePartialView.cshtml">
+    <Content Update="Views\Department\DepartmentPartialView\_DepartmentsTablePartialView.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
