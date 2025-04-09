@@ -48,6 +48,5 @@ namespace Company.Owner.BLL.Reposatories
         {
             _context.Set<T>().Remove(model);
         }
-
     }
 }

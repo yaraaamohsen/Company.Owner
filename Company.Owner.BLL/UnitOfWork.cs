@@ -13,9 +13,9 @@ namespace Company.Owner.BLL
     {
         private readonly CompanyDbContext _context;
 
-        public IDepartmentRepository departmentRepository { get; } // NULL
+        public IDepartmentRepository departmentRepository { get; }
 
-        public IEmployeeRemository employeeRepository { get; } // NULL
+        public IEmployeeRemository employeeRepository { get; }
         public UnitOfWork(CompanyDbContext context)
         {
             _context = context;

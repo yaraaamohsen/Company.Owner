@@ -103,6 +103,7 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetRoleByIdAsync(string? id, string ViewName)
         {
             if (id is null) return BadRequest("Id Is null");
@@ -121,18 +122,21 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IActionResult> Details(string? id)
         {
             return GetRoleByIdAsync(id, "Details");
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IActionResult> Edit(string? id)
         {
             return GetRoleByIdAsync(id, "Edit");
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IActionResult> Delete(string? id)
         {
             return GetRoleByIdAsync(id, "Delete");
@@ -140,6 +144,7 @@ namespace Company.Owner.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit([FromRoute] string id, RoleToReturnDto model)
         {
             if (ModelState.IsValid)
@@ -166,7 +171,6 @@ namespace Company.Owner.PL.Controllers
                 }
 
                 var AddOrRemoveUsersStatus = TempData["AddOrRemoveUsersStatus"]?.ToString();
-                //var AddOrRemoveUsersStatus = Request.Query["status"].FirstOrDefault();
                 if (AddOrRemoveUsersStatus == "true")
                 {
                     TempData["toastr-success"] = "Role Updated successfully!";
@@ -179,6 +183,7 @@ namespace Company.Owner.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] string id, RoleToReturnDto model)
         {
             if (ModelState.IsValid)
@@ -206,6 +211,7 @@ namespace Company.Owner.PL.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> AddOrRemoveUsers(string roleId)
         {
@@ -233,6 +239,7 @@ namespace Company.Owner.PL.Controllers
             return View(UsersInRole);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddOrRemoveUsers(string roleId, List<UserInRoleDto> users)
         {

@@ -36,14 +36,6 @@ namespace Company.Owner.PL.Controllers
             {
                 employees = await _unitOfWork.employeeRepository.GetByNameAsync(SearchInput);  
             }
-            //// Dictionary  : this 3 property imherited from Controller Class
-            //// 1. ViewData : Transfer Extra Information From Controller (Action) To View
-            //ViewData["Message"] = "Hello Form ViewData"; // Set - Get to Update
-
-
-            //// 2. ViewBag  : Transfer Extra Information From Controller (Action) To View
-            //ViewBag.Message = "Hello From ViewBag";
-            //// 3. TempData
 
             return View(employees);
         }
@@ -92,7 +84,6 @@ namespace Company.Owner.PL.Controllers
                     var count = await _unitOfWork.CompleteAsync();
                     if (count > 0)
                     {
-                        //TempData["Message"] = "Employee Is Created !!";
                         TempData["toastr-success"] = "Employee created successfully!";
                         return RedirectToAction(nameof(Index));
                     }
@@ -126,12 +117,14 @@ namespace Company.Owner.PL.Controllers
             return View(ViewName, employee);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<IActionResult> Details(int? id)
         {
             return GetEmpByIdAsync(id, "Details");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<IActionResult> Edit(int? id)
         {
@@ -145,6 +138,7 @@ namespace Company.Owner.PL.Controllers
             return GetEmpByIdAsync(id, "Delete");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromRoute]int id,CreateEmployeeDto model)

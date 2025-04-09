@@ -37,29 +37,6 @@
                     <td>@item.Name</td>
                     <td>@item.CreateAt</td>
                     <partial name="_buttonsPartialView" model="@item.Id.ToString()" />
-                    @* <td><a class="btn btn-warning" asp-route-id="@item.Id" asp-action="Details">Details</a></td> *@
-                    @* <td><a class="btn btn-success" asp-route-id="@item.Id" asp-action="Edit">Update</a></td> *@
-
-                    @* @* Pop Up *@
-                    @* <td><a class="btn btn-danger" bind_Id="@item.Id" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a></td>  *@
-                    @* <!-- Modal --> *@
-                    @* <div class="modal fade" id="exampleModal" bind_Id="@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
-                    @*     <div class="modal-dialog">  *@
-                    @*     <div class="modal-content">  *@
-                    @*       <div class="modal-header"> *@
-                    @*         <h5 class="modal-title" id="exampleModalLabel">Remove Department </h5> *@
-                    @*         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
-                    @*       </div> *@
-                    @*       <div class="modal-body"> *@
-                    @*         Do you Want Remove "@item.Name"? <span class="text-danger fw-bolder"> X </span> *@
-                    @*       </div> *@
-                    @*       <div class="modal-footer"> *@
-                    @*         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button> *@
-                    @*         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> *@
-                    @*       </div> *@
-                    @*     </div> *@
-                    @*   </div> *@
-                    @* </div> *@
                 </tr>
             }
         </tbody>

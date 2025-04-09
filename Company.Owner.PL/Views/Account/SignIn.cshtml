@@ -34,10 +34,14 @@
 		</form>
 
 		@*Sign In With Google*@
-		<p>or
+
+		@*
+			<p>or
 			<a asp-action="GoogleLogin" class="fw-bold text-success">Sign In With Google</a> <br />
 			<a asp-action="FacebookLogin" class="fw-bold text-primary">Sign In With Facebook</a>
 		</p>
+		*@
+		
 		<p class="mt-3">Don’t have an Account? <a asp-action="SignUp" class="fw-bold">Sign Up Now!</a></p>
 		<a asp-action="ForgetPassword" class="fw-bold text-danger">Forget Password?</a>
 	</div>

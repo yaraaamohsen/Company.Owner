@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Owner.PL.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -49,7 +49,8 @@ namespace Company.Owner.PL.Controllers
            
             return View(users);
         }
-
+        
+        [HttpGet]
         public async Task<IActionResult> Search(string? SearchInput)
         {
             IEnumerable<UserToReturnDto> users;
@@ -147,7 +148,6 @@ namespace Company.Owner.PL.Controllers
             }
             return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

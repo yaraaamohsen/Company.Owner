@@ -4,27 +4,6 @@
 // Write your JavaScript code.
 
 
-//$(document).ready(function () {
-//     const searchBar = $('#InputVal');
-//const table = $('table');
-//searchBar.on('keyup', function (event) {
-//    console.log("Search triggered");
-//var searchValue = searchBar.val();
-//$.ajax({
-//    url: '/Employee/Search',
-//type: 'GET',
-//data: {SearchInput: searchValue },
-//success: function (result) {
-//    $('table').html($(result).find('table').html());
-//             },
-//error: function (xhr, status, error) {
-//    console.log("Error:", error);
-//             }
-//         });
-//     });
-// });
-
-
 $(document).ready(function () {
     $('#InputVal').on('keyup', function () {
         const searchBar = $(this);

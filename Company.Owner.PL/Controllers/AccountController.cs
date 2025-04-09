@@ -130,7 +130,6 @@ namespace Company.Owner.PL.Controllers
                         Subject = "Reset Password",
                         Body = url
                     };
-                    //var Flag = EmailSetting.SendEmail(email);
 
                     _mailService.SendEmail(email);
                     return RedirectToAction("CheckYourInbox");

@@ -5,7 +5,6 @@ using Company.Owner.DAL.Models;
 using Company.Owner.PL.Helper.EmailSetting;
 using Company.Owner.PL.Helper.SmsConfig;
 using Company.Owner.PL.Mapping;
-using Company.Owner.PL.Services;
 using Company.Owner.PL.Setting;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -24,7 +23,7 @@ namespace Company.Owner.PL
             builder.Services.AddControllersWithViews();
             
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IMailService, MailSrvice>();
+            builder.Services.AddScoped<IMailService, MailService>();
             builder.Services.AddScoped<ITwilioService, TwilioService>();
 
             builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
@@ -47,13 +46,6 @@ namespace Company.Owner.PL
 
             builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
             builder.Services.Configure<TwilioSetting>(builder.Configuration.GetSection(nameof(TwilioSetting)));
-
-
-            #region Services Life Time
-            builder.Services.AddScoped<IScopedService, ScopedService>();          // Per Request
-            builder.Services.AddTransient<ITransientService, TransientService>(); // Per Operation
-            builder.Services.AddSingleton<ISingletonService, SingletonService>(); // Per App
-            #endregion
 
             var app = builder.Build();
 

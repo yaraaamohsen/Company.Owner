@@ -29,9 +29,12 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>Details</th>
-                    <th>update</th>
-                    <th>Delete</th>
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <th>Details</th>
+                        <th>update</th>
+                        <th>Delete</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +43,10 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>@item.Name</td>
+                        @if(User.IsInRole("Admin"))
+                        {
                         <partial name="_buttonsPartialView" model="@item.Id?.ToString()" />
+                        }
                     </tr>
                 }
             </tbody>

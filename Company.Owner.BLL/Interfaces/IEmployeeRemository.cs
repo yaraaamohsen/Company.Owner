@@ -9,11 +9,6 @@ namespace Company.Owner.BLL.Interfaces
 {
     public interface IEmployeeRemository : IGenericRepository<Employee>
     {
-        //IEnumerable<Employee> GetAll();
-        //Employee GetById(int id);
-        //int Add(Employee employee);
-        //int Update(Employee employee);
-        //int Delete(Employee employee);
         Task<IEnumerable<Employee>> GetByNameAsync(string name);
 
     }

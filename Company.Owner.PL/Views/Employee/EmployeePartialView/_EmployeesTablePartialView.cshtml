@@ -16,7 +16,10 @@
         <td>@item.IsActive</td>
         <td>@item.IsDeleted</td>
         <td>@(item.department != null ? item.department?.Name : "NA")</td>
+        @if(User.IsInRole("Admin"))
+        {
         <partial name="_buttonsPartialView" model="@item.Id.ToString()" />
+        }
     </tr>
 }
         
