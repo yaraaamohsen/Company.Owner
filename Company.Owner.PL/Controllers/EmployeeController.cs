@@ -30,20 +30,12 @@ namespace Company.Owner.PL.Controllers
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(SearchInput))
             {
-                employees = await _unitOfWork.employeeRemository.GetAllAsync();
+                employees = await _unitOfWork.employeeRepository.GetAllAsync();
             }
             else
             {
-                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);  
+                employees = await _unitOfWork.employeeRepository.GetByNameAsync(SearchInput);  
             }
-            //// Dictionary  : this 3 property imherited from Controller Class
-            //// 1. ViewData : Transfer Extra Information From Controller (Action) To View
-            //ViewData["Message"] = "Hello Form ViewData"; // Set - Get to Update
-
-
-            //// 2. ViewBag  : Transfer Extra Information From Controller (Action) To View
-            //ViewBag.Message = "Hello From ViewBag";
-            //// 3. TempData
 
             return View(employees);
         }
@@ -54,21 +46,21 @@ namespace Company.Owner.PL.Controllers
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(SearchInput))
             {
-                employees = await _unitOfWork.employeeRemository.GetAllAsync();
+                employees = await _unitOfWork.employeeRepository.GetAllAsync();
             }
             else
             {
-                employees = await _unitOfWork.employeeRemository.GetByNameAsync(SearchInput);
+                employees = await _unitOfWork.employeeRepository.GetByNameAsync(SearchInput);
             }
 
             if (employees.Any())
             {
-                return PartialView("EmployeePartialView/EmployeesTablePartialView", employees);
+                return PartialView("EmployeePartialView/_EmployeesTablePartialView", employees);
             }
 
             return Content("<tr><td colspan='15'>No employees found</td></tr>");
         }
-        
+
         public async Task<IActionResult> Create()
         {
             var department = await _unitOfWork.departmentRepository.GetAllAsync();
@@ -88,11 +80,10 @@ namespace Company.Owner.PL.Controllers
                         model.ImageName = DocumentSettings.UploadFile(model.Image, "Images");
                     }
                     var employee = _Mapper.Map<Employee>(model);
-                    await _unitOfWork.employeeRemository.AddAsync(employee);
+                    await _unitOfWork.employeeRepository.AddAsync(employee);
                     var count = await _unitOfWork.CompleteAsync();
                     if (count > 0)
                     {
-                        //TempData["Message"] = "Employee Is Created !!";
                         TempData["toastr-success"] = "Employee created successfully!";
                         return RedirectToAction(nameof(Index));
                     }
@@ -110,7 +101,7 @@ namespace Company.Owner.PL.Controllers
         {
             if (id is null) return BadRequest("Id Is null");
 
-            var employee = await _unitOfWork.employeeRemository.GetByIdAsync(id.Value);
+            var employee = await _unitOfWork.employeeRepository.GetByIdAsync(id.Value);
             
             if (employee is null) return NotFound("There is no emplyee matches the ID ");
             
@@ -126,12 +117,14 @@ namespace Company.Owner.PL.Controllers
             return View(ViewName, employee);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<IActionResult> Details(int? id)
         {
             return GetEmpByIdAsync(id, "Details");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public Task<IActionResult> Edit(int? id)
         {
@@ -145,6 +138,7 @@ namespace Company.Owner.PL.Controllers
             return GetEmpByIdAsync(id, "Delete");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromRoute]int id,CreateEmployeeDto model)
@@ -161,7 +155,7 @@ namespace Company.Owner.PL.Controllers
                 }
                 var employee = _Mapper.Map<Employee>(model);
                 employee.Id = id;
-                _unitOfWork.employeeRemository.Update(employee);
+                _unitOfWork.employeeRepository.Update(employee);
                 var count = await _unitOfWork.CompleteAsync();
                 if (count > 0)
                 {
@@ -182,7 +176,7 @@ namespace Company.Owner.PL.Controllers
             {
                 if (id != model.Id) return BadRequest("Not Selected Id");
 
-                _unitOfWork.employeeRemository.Delete(model);
+                _unitOfWork.employeeRepository.Delete(model);
 
                 var count = await _unitOfWork.CompleteAsync();
 

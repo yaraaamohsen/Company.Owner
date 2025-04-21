@@ -6,9 +6,8 @@
 <h1>All Roles</h1>
 
 <form>
-    <div>
-        <input id="InputVal" placeholder="Search By Role Name" name="SearchInput" class="form-control" />
-        <input type="submit" class="btn btn-success my-2" value="Search" />
+    <div class="py-2">
+        <input id="InputVal" placeholder="Search By Role Name" data-search-url="/Role/Search" data-target-table="table" name="SearchInput" class="form-control" />
     </div>
 </form>
 
@@ -25,14 +24,15 @@
 @if(Model.Count() > 0)
 {
     <div class="table-responsive">
-        <table class="overflow-hidden table table-hover table-striped">
+        <table class="overflow-hidden table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>Details</th>
-                    <th>update</th>
-                    <th>Delete</th>
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <th>Actions</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,10 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>@item.Name</td>
+                        @if(User.IsInRole("Admin"))
+                        {
                         <partial name="_buttonsPartialView" model="@item.Id?.ToString()" />
+                        }
                     </tr>
                 }
             </tbody>
@@ -55,3 +58,28 @@ else
     <h4 class="mt-4 alert alert-danger"> There Are No Roles :(</h4>
 }
 
+<script>
+
+    $(document).ready(function () {
+        const searchBar = $('#RoleInputVal');
+        const table = $('table');
+
+        searchBar.on('keyup', function (event) {
+            var searchValue = searchBar.val();
+                            console.log("hello frol role");
+
+            $.ajax({
+                url: '/Role/Search',
+                type: 'Get',
+                data: { SearchInput: searchValue },
+                success: function (result) {
+                    table.html(result);
+                },
+                error: function (xhr, status, error) {
+                console.log(error);
+                }
+            });
+        });
+    });
+
+</script>

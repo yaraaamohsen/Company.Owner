@@ -33,6 +33,29 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Search(string? SearchInput)
+        {
+            IEnumerable<Department> departments;
+            if (String.IsNullOrEmpty(SearchInput))
+            {
+                departments = await _unitOfWork.departmentRepository.GetAllAsync();
+            }
+            else
+            {
+                departments = await _unitOfWork.departmentRepository.GetByNameAsync(SearchInput);
+            }
+
+            if (departments.Any())
+            {
+                return PartialView("DepartmentPartialView/_DepartmentsTablePartialView", departments);
+            }
+
+            return Content("<tr><td colspan='15'>No departmens found</td></tr>");
+        }
+
+
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();

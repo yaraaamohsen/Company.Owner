@@ -3,24 +3,26 @@
 
 // Write your JavaScript code.
 
-    $(document).ready(function () {
-        const searchBar = $('#InputVal');
-    const table = $('table');
 
-        searchBar.on('keyup', function (event) {
-            console.log("new new hello");
-            var searchValue = searchBar.val();
+$(document).ready(function () {
+    $('#InputVal').on('keyup', function () {
+        const searchBar = $(this);
+        const searchValue = searchBar.val();
+        const searchUrl = searchBar.data('search-url');
+        console.log("Search triggered for:", searchUrl);
 
-    $.ajax({
-        url: '/Employee/Search',
-    type: 'Get',
-        data: { SearchInput: searchValue },
-    success: function (result) {
-        table.html(result);
-                },
-    error: function (xhr, status, error) {
-        console.log(error);
-                }
-            });
+        $.ajax({
+            url: searchUrl,
+            type: 'GET',
+            data: { SearchInput: searchValue },
+            success: function (result) {
+                //$(tableSelector).html($(result).find(tableSelector).html());
+                //$('table tbody').html($(result).find('tbody').html());
+                $('table tbody').html(result);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            }
         });
     });
+});

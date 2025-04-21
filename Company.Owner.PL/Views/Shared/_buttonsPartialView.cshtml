@@ -1,5 +1,8 @@
 ﻿@model string
-
-<td><a class="btn btn-warning" asp-route-id="@Model" asp-action="Details">Details</a></td>
-<td><a class="btn btn-success" asp-route-id="@Model" asp-action="Edit">Update</a></td>
-<td><a class="btn btn-danger" asp-route-id="@Model" asp-action="Delete">Delete</a></td>
+<td>
+    <div class="d-flex gap-2 justify-content-around">
+        <a asp-route-id="@Model" asp-action="Details" class="btn btn-success btn-sm action-btn"><i class="bi bi-eye"></i></a>
+        <a asp-route-id="@Model" asp-action="Edit" class="btn btn-warning btn-sm action-btn"><i class="bi bi-pencil-square"></i></a>
+        <a asp-route-id="@Model" asp-action="Delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+    </div>
+</td>

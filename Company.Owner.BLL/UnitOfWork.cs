@@ -13,14 +13,14 @@ namespace Company.Owner.BLL
     {
         private readonly CompanyDbContext _context;
 
-        public IDepartmentRepository departmentRepository { get; } // NULL
+        public IDepartmentRepository departmentRepository { get; }
 
-        public IEmployeeRemository employeeRemository { get; } // NULL
+        public IEmployeeRemository employeeRepository { get; }
         public UnitOfWork(CompanyDbContext context)
         {
             _context = context;
             departmentRepository = new DepartmentRepository(_context);
-            employeeRemository = new EmployeeRepository(_context);
+            employeeRepository = new EmployeeRepository(_context);
         }
 
         public async Task<int> CompleteAsync()

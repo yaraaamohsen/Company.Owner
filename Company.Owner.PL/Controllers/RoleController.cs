@@ -2,6 +2,7 @@
 using Company.Owner.DAL.Models;
 using Company.Owner.PL.Dtos;
 using Company.Owner.PL.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace Company.Owner.PL.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -68,9 +70,8 @@ namespace Company.Owner.PL.Controllers
                 }).Where(R => R.Name.ToLower().Contains(SearchInput.ToLower()));
             }
 
-            return PartialView("RolePartialView/RoleTablePartialView");
+            return PartialView("RolePartialView/_RoleTablePartialView", roles);
         }
-
 
         public IActionResult Create()
         {
@@ -102,6 +103,7 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetRoleByIdAsync(string? id, string ViewName)
         {
             if (id is null) return BadRequest("Id Is null");
@@ -120,18 +122,21 @@ namespace Company.Owner.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IActionResult> Details(string? id)
         {
             return GetRoleByIdAsync(id, "Details");
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IActionResult> Edit(string? id)
         {
             return GetRoleByIdAsync(id, "Edit");
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IActionResult> Delete(string? id)
         {
             return GetRoleByIdAsync(id, "Delete");
@@ -139,6 +144,7 @@ namespace Company.Owner.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit([FromRoute] string id, RoleToReturnDto model)
         {
             if (ModelState.IsValid)
@@ -165,7 +171,6 @@ namespace Company.Owner.PL.Controllers
                 }
 
                 var AddOrRemoveUsersStatus = TempData["AddOrRemoveUsersStatus"]?.ToString();
-                //var AddOrRemoveUsersStatus = Request.Query["status"].FirstOrDefault();
                 if (AddOrRemoveUsersStatus == "true")
                 {
                     TempData["toastr-success"] = "Role Updated successfully!";
@@ -178,6 +183,7 @@ namespace Company.Owner.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] string id, RoleToReturnDto model)
         {
             if (ModelState.IsValid)
@@ -205,6 +211,7 @@ namespace Company.Owner.PL.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> AddOrRemoveUsers(string roleId)
         {
@@ -232,6 +239,7 @@ namespace Company.Owner.PL.Controllers
             return View(UsersInRole);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddOrRemoveUsers(string roleId, List<UserInRoleDto> users)
         {

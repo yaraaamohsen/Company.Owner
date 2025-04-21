@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 namespace Company.Owner.PL.Helper.EmailSetting
 {
-    public class MailSrvice(IOptions<MailSettings> _options) : IMailService
+    public class MailService(IOptions<MailSettings> _options) : IMailService
     {
         public void SendEmail(Email email)
         {

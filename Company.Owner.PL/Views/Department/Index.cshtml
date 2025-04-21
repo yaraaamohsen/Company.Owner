@@ -7,24 +7,24 @@
 
 <h1>All Department</h1>
 
-<br />
-<br />
 
-<a asp-action="Create" asp-controller="Department" class="btn btn-primary">Create Department</a>
+<form>
+    <div class="py-2">
+        <input id="InputVal" placeholder="Search By Department Name" data-search-url="/Department/Search" data-target-table="table" name="SearchInput" class="form-control" />
+    </div>
+</form>
 
-<br />
-<br />
+
+<a asp-action="Create" asp-controller="Department" class="btn btn-primary my-3">Create Department</a>
 
 @if(Model.Count() > 0){
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-bordered">
         <thead>
             <tr>
                 <th>Code</th>
                 <th>Name</th>
                 <th>Date of Creation</th>
-                <th>Details</th>
-                <th>update</th>
-                <th>Delete</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -35,29 +35,6 @@
                     <td>@item.Name</td>
                     <td>@item.CreateAt</td>
                     <partial name="_buttonsPartialView" model="@item.Id.ToString()" />
-                    @* <td><a class="btn btn-warning" asp-route-id="@item.Id" asp-action="Details">Details</a></td> *@
-                    @* <td><a class="btn btn-success" asp-route-id="@item.Id" asp-action="Edit">Update</a></td> *@
-
-                    @* @* Pop Up *@
-                    @* <td><a class="btn btn-danger" bind_Id="@item.Id" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a></td>  *@
-                    @* <!-- Modal --> *@
-                    @* <div class="modal fade" id="exampleModal" bind_Id="@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
-                    @*     <div class="modal-dialog">  *@
-                    @*     <div class="modal-content">  *@
-                    @*       <div class="modal-header"> *@
-                    @*         <h5 class="modal-title" id="exampleModalLabel">Remove Department </h5> *@
-                    @*         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
-                    @*       </div> *@
-                    @*       <div class="modal-body"> *@
-                    @*         Do you Want Remove "@item.Name"? <span class="text-danger fw-bolder"> X </span> *@
-                    @*       </div> *@
-                    @*       <div class="modal-footer"> *@
-                    @*         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button> *@
-                    @*         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> *@
-                    @*       </div> *@
-                    @*     </div> *@
-                    @*   </div> *@
-                    @* </div> *@
                 </tr>
             }
         </tbody>

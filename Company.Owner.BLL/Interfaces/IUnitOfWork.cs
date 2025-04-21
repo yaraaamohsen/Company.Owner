@@ -10,7 +10,7 @@ namespace Company.Owner.BLL.Interfaces
     public interface IUnitOfWork : IAsyncDisposable
     {
         public IDepartmentRepository departmentRepository { get; }
-        public IEmployeeRemository employeeRemository { get; }
+        public IEmployeeRemository employeeRepository { get; }
         Task<int> CompleteAsync();
     }
 }
