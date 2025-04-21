@@ -46,7 +46,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand me-auto" asp-area="" asp-controller="Home" asp-action="Index">Company management System</a>
+                <a class="navbar-brand me-auto" asp-area="" asp-controller="Home" asp-action="Index">Company Management System</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -56,21 +56,20 @@
                 <div class="collapse navbar-collapse w-100 justify-content-between" id="mainNavbar">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-primary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-primary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
+                            <a class="nav-link text-primary" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
+                            <a class="nav-link text-primary" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav">
-                        <div class="d-flex align-items-center gap-2">
+                    <ul class="navbar-nav d-flex align-items-center gap-2">
                             <img src="./Files/Images/blankProfilePicture.webp" alt="Avatar" width="50" height="50" class="rounded-circle">
                             <div>
                                 <h6 class="mb-0 fw-bold">@userName</h6>
@@ -92,7 +91,6 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
                     </ul>
                 </div>
             </div>
